@@ -7,14 +7,17 @@ import { Route, Switch } from 'react-router';
 
 // Children
 import Login from './pages/Login';
-import FoodRecipes from './pages/FoodRecipes';
+import Recipes from './pages/Recipes';
+import Profile from './pages/Profile';
+
 
 function App() {
   return (
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/comidas" component={ FoodRecipes } />
+        <Route exact path="/comidas" component={ Recipes } />
+        <Route exact path="/perfil" component={ Profile } />
       </Switch>
     </main>
   );
