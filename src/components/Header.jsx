@@ -4,12 +4,15 @@ import React, { useState, useEffect } from 'react';
 // Router
 import { useLocation, useHistory } from 'react-router-dom';
 
-// Prop-Types
+// PropTypes
 import PropTypes from 'prop-types';
 
 // Images
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+
+// Helpers
+import capitalize from '../helpers/capitalizeStr';
 
 // Children
 import SearchBar from './SearchBar';
@@ -26,14 +29,6 @@ function Header({ searchBtn }) {
   const [toggleSearch, setToggleSearch] = useState(false);
 
   /* Criar título baseado na rota */
-  const capitalize = (str) => {
-    const lower = str.toLowerCase(); // A string em minúsculo
-    const first = lower.charAt(0); // A primeira letra
-    const upper = first.toUpperCase(); // A primeira letra em maiúsculo
-    const remain = lower.slice(1, lower.length); // A string menos a primeira letra
-    return upper + remain;
-  };
-
   useEffect(() => {
     const fixedName = path.pathname.split('/')[1];
     const capitalizedName = capitalize(fixedName);
