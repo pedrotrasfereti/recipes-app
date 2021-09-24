@@ -78,4 +78,3 @@ describe('1. Testar o componente footer', () => {
     expect(afterClickPage).toBe('/comidas');
   });
 });
-//
