@@ -21,46 +21,44 @@ import {
 
 function App() {
   return (
-    <main>
-      <Switch>
-        <Route exact path="/" component={ Login } />
-        <Route
-          exact
-          path="/bebidas"
-          render={ (/* foodDrink */) => Recipes(/* foodDrink */) }
-        />
-        <Route
-          exact
-          path="/comidas"
-          render={ (/* foodDrink */) => Recipes(/* foodDrink */) }
-        />
-        <Route
-          exact
-          path="/comidas/:id"
-          render={ (/* foodDrink */) => Details(/* foodDrink */) }
-        />
-        <Route
-          exact
-          path="/bebidas/:id"
-          render={ (/* foodDrink */) => Details(/* foodDrink */) }
-        />
-        <Route exact path="/perfil" component={ Profile } />
-        <Route exact path="/explorar" component={ Explore } />
-        <Route exact path="/explorar/comidas" component={ ExploreFoods } />
-        <Route exact path="/explorar/bebidas" component={ ExploreDrinks } />
-        <Route exact path="/explorar/comidas/area" component={ ExploreFoodsArea } />
-        <Route
-          exact
-          path="/explorar/comidas/ingredientes"
-          component={ ExploreFoodsIngr }
-        />
-        <Route
-          exact
-          path="/explorar/bebidas/ingredientes"
-          component={ ExploreDrinksIngr }
-        />
-      </Switch>
-    </main>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route
+        exact
+        path="/bebidas"
+        render={ () => <Recipes foodDrink="drinks" /> }
+      />
+      <Route
+        exact
+        path="/comidas"
+        render={ () => <Recipes foodDrink="meals" /> }
+      />
+      <Route
+        exact
+        path="/comidas/:id"
+        render={ (/* foodDrink */) => <Details /> }
+      />
+      <Route
+        exact
+        path="/bebidas/:id"
+        render={ (/* foodDrink */) => <Details /> }
+      />
+      <Route exact path="/perfil" component={ Profile } />
+      <Route exact path="/explorar" component={ Explore } />
+      <Route exact path="/explorar/comidas" component={ ExploreFoods } />
+      <Route exact path="/explorar/bebidas" component={ ExploreDrinks } />
+      <Route exact path="/explorar/comidas/area" component={ ExploreFoodsArea } />
+      <Route
+        exact
+        path="/explorar/comidas/ingredientes"
+        component={ ExploreFoodsIngr }
+      />
+      <Route
+        exact
+        path="/explorar/bebidas/ingredientes"
+        component={ ExploreDrinksIngr }
+      />
+    </Switch>
   );
 }
 

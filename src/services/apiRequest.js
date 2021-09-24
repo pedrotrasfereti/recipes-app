@@ -1,11 +1,12 @@
-const apiRequest = async (searchText, searchFilter) => {
+const apiRequest = async (searchText, searchFilter, foodDrink) => {
+  const domain = foodDrink === 'comidas' ? 'themealdb' : 'thecocktaildb';
   let url = '';
   if (searchFilter === 'ingredient') {
-    url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchText}`;
+    url = `https://www.${domain}.com/api/json/v1/1/filter.php?i=${searchText}`;
   } else if (searchFilter === 'name') {
-    url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+    url = `https://www.${domain}.com/api/json/v1/1/search.php?s=${searchText}`;
   } else if (searchFilter === 'first-letter') {
-    url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchText}`;
+    url = `https://www.${domain}.com/api/json/v1/1/search.php?f=${searchText}`;
   }
   const recipes = await (await fetch(url)).json();
   return recipes;

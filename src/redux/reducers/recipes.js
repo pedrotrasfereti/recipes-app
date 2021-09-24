@@ -4,7 +4,7 @@ import { REQUEST_RECIPES, REQUEST_SUCCESS, REQUEST_FAIL } from '../actions';
 // Inicial State
 const INITIAL_STATE = {
   loading: false,
-  recipes: [],
+  results: {},
 };
 
 const recipes = (state = INITIAL_STATE, action) => {
@@ -18,7 +18,7 @@ const recipes = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       loading: false,
-      recipes: action.payload,
+      results: action.payload,
     };
   case REQUEST_FAIL:
     return {

@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 // Router
 import { useLocation, useHistory } from 'react-router-dom';
 
+// Prop-Types
+import PropTypes from 'prop-types';
+
 // Images
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
@@ -11,7 +14,7 @@ import searchIcon from '../images/searchIcon.svg';
 // Children
 import SearchBar from './SearchBar';
 
-function Header(searchBtn) {
+function Header({ searchBtn }) {
   /* Router */
   const history = useHistory();
   const path = useLocation();
@@ -45,7 +48,7 @@ function Header(searchBtn) {
           type="button"
           data-testid="profile-top-btn"
           onClick={ () => history.push('/perfil') }
-          disabled={ !searchBtn } // Disabilitar quando estiver na tela de perfil
+          disabled={ !searchBtn } // Desabilitar quando estiver na tela de perfil
         >
           <img src={ profileIcon } alt="User person icon" />
         </button>
@@ -54,7 +57,7 @@ function Header(searchBtn) {
         <h2 data-testid="page-title">{ title }</h2>
 
         {
-          searchBtn ? (
+          searchBtn && (
             <button
               type="button"
               data-testid="search-top-btn"
@@ -62,7 +65,7 @@ function Header(searchBtn) {
             >
               <img src={ searchIcon } alt="Search button icon" />
             </button>
-          ) : null
+          )
         }
       </header>
       <div>
@@ -71,5 +74,9 @@ function Header(searchBtn) {
     </>
   );
 }
+
+Header.propTypes = {
+  searchBtn: PropTypes.bool,
+}.isRequired;
 
 export default Header;
