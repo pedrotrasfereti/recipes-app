@@ -10,7 +10,6 @@ import Login from './pages/Login';
 import Recipes from './pages/Recipes';
 import Profile from './pages/Profile';
 
-
 function App() {
   return (
     <main>
