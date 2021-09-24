@@ -57,7 +57,7 @@ describe('1. Testar o componente footer', () => {
     const afterClickPage = mockHistory.location.pathname;
     expect(afterClickPage).toBe('/bebidas');
   });
-  it('1-5. Testar se o botão de explore redireciona para a tela de explorar itens', () => {
+  it('1-5. Testar se o botão de explore redireciona para a tela de explorar item', () => {
     mockHistory.push('/comidas');
 
     const exploreBtn = screen.getByTestId(EXPLORE_BTN);
