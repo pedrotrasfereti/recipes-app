@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import Footer from '../components/Footer';
 
 // Children
 import Header from '../components/Header';
@@ -12,6 +13,7 @@ function Profile() {
       <p>botão1</p>
       <p>botão2</p>
       <p>botão3</p>
+      <Footer />
     </div>
   );
 }

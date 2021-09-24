@@ -12,6 +12,7 @@ import { useHistory, useLocation } from 'react-router';
 import capitalize from '../helpers/capitalizeStr';
 
 // Children
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Recipes({ foodDrink }) {
@@ -66,6 +67,7 @@ function Recipes({ foodDrink }) {
             .push(`${path}/${recipes[0][`id${foodDrinkCap}`]}`)
         }
       </main>
+      <Footer />
     </>
   );
 }
