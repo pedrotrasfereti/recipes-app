@@ -4,12 +4,12 @@ import React from 'react';
 // Children
 import Header from '../components/Header';
 
-function ExploreFoodsIngr() {
+function Done() {
   return (
     <section>
-      <Header title="Explorar Ingredientes" />
+      <Header title="Receitas Feitas" />
     </section>
   );
 }
 
-export default ExploreFoodsIngr;
+export default Done;

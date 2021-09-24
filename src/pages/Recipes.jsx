@@ -23,7 +23,7 @@ function Recipes({ foodDrink }) {
   const history = useHistory();
   return (
     <>
-      <Header searchBtn />
+      <Header searchBtn title={ capitalize(path.slice(1, path.length)) } />
       <main>
         {
           (!loading && !recipes) && <p>Digite algum termo de pesquisa</p>

@@ -27,3 +27,9 @@ export { default as ExploreFoodsIngr } from './ExploreFoodsIngr';
 
 /* /explorar/bebidas/ingredientes */
 export { default as ExploreDrinksIngr } from './ExploreDrinksIngr';
+
+/* /receitas-feitas */
+export { default as Done } from './Done';
+
+/* /receitas-favoritas */
+export { default as Favorites } from './Favorites';

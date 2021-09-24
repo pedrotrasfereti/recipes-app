@@ -1,12 +1,14 @@
 // React
 import React from 'react';
 
-// // Children
-// import Header from '../components/Header';
+// Children
+import Header from '../components/Header';
 
 function ExploreFoods() {
   return (
-    <div />
+    <section>
+      <Header title="Explorar Comidas" />
+    </section>
   );
 }
 

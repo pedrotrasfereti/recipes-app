@@ -2,11 +2,13 @@
 import React from 'react';
 
 // // Children
-// import Header from '../components/Header';
+import Header from '../components/Header';
 
 function Explore() {
   return (
-    <div />
+    <section>
+      <Header title="Explorar" />
+    </section>
   );
 }
 

@@ -17,6 +17,8 @@ import {
   ExploreFoodsArea,
   ExploreFoodsIngr,
   ExploreDrinksIngr,
+  Done,
+  Favorites,
 } from './pages';
 
 function App() {
@@ -58,6 +60,8 @@ function App() {
         path="/explorar/bebidas/ingredientes"
         component={ ExploreDrinksIngr }
       />
+      <Route exact path="/receitas-feitas" component={ Done } />
+      <Route exact path="/receitas-favoritas" component={ Favorites } />
     </Switch>
   );
 }

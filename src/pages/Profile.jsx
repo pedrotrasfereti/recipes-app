@@ -7,7 +7,7 @@ import Header from '../components/Header';
 function Profile() {
   return (
     <div>
-      <Header />
+      <Header title="Perfil" />
       <p>email</p>
       <p>botão1</p>
       <p>botão2</p>
