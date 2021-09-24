@@ -2,14 +2,15 @@
 import React from 'react';
 import Footer from '../components/Footer';
 
-// // Children
-// import Header from '../components/Header';
+// Children
+import Header from '../components/Header';
 
 function ExploreDrinksIngr() {
   return (
-    <div>
+    <section>
+      <Header title="Explorar Ingredientes" />
       <Footer />
-    </div>
+    </section>
   );
 }
 

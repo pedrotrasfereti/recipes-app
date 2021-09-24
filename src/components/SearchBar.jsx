@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 // React-Redux
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router';
 
 // Action async
 import { fetchRecipes } from '../redux/actions';
@@ -11,13 +12,15 @@ function SearchBar() {
   const [searchText, setSearchText] = useState('');
   const [searchFilter, setSearchFilter] = useState('ingredient');
 
+  const path = useLocation().pathname.split('/')[1];
+
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (searchFilter === 'first-letter' && searchText.length > 1) {
       global.alert('Sua busca deve conter somente 1 (um) caracter');
     } else {
-      dispatch(fetchRecipes(searchText, searchFilter));
+      dispatch(fetchRecipes(searchText, searchFilter, path));
     }
   };
   return (
@@ -34,7 +37,6 @@ function SearchBar() {
         <label htmlFor="ingredient">
           Ingrediente
           <input
-            checked
             id="ingredient"
             value="ingredient"
             type="radio"

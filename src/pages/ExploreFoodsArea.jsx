@@ -2,14 +2,15 @@
 import React from 'react';
 import Footer from '../components/Footer';
 
-// // Children
-// import Header from '../components/Header';
+// Children
+import Header from '../components/Header';
 
 function ExploreFoodsArea() {
   return (
-    <div>
+    <section>
+      <Header searchBtn title="Explorar Origem" />
       <Footer />
-    </div>
+    </section>
   );
 }
 

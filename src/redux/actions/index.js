@@ -11,11 +11,11 @@ const requestRecipes = () => ({ type: REQUEST_RECIPES });
 const requestSuccess = (payload) => ({ type: REQUEST_SUCCESS, payload });
 const requestFail = (error) => ({ type: REQUEST_FAIL, error });
 
-export const fetchRecipes = (searchText, searchFilter) => async (dispatch) => {
+export const fetchRecipes = (searchText, searchFilter, foodDrink) => async (dispatch) => {
   try {
     dispatch(requestRecipes());
 
-    const recipes = await apiRequest(searchText, searchFilter);
+    const recipes = await apiRequest(searchText, searchFilter, foodDrink);
     dispatch(requestSuccess(recipes));
   } catch (error) {
     dispatch(requestFail(error));

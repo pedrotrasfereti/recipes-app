@@ -3,13 +3,14 @@ import React from 'react';
 import Footer from '../components/Footer';
 
 // // Children
-// import Header from '../components/Header';
+import Header from '../components/Header';
 
 function ExploreDrinks() {
   return (
-    <div>
+    <section>
+      <Header title="Explorar Bebidas" />
       <Footer />
-    </div>
+    </section>
   );
 }
 
