@@ -20,12 +20,34 @@ import { fetchRecipes } from '../redux/actions';
 
 function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
-  const recipes = results[foodDrink];
+  const recipes = results[foodDrink] || [];
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const path = useLocation().pathname;
 
+  const [categories, setCategories] = useState([]);
+
+  function filterCategories() {
+    let btnsLimit = [];
+    const categoryBTNS = recipes.filter((item) => {
+      const FIVE = 5;
+      if (btnsLimit.length < FIVE && !(btnsLimit.includes(item.strCategory))) {
+        btnsLimit = [...btnsLimit, item.strCategory];
+        return item.strCategory;
+      }
+    });
+    console.log(categoryBTNS, '39');
+    return categoryBTNS;
+  }
+
   const dispatch = useDispatch();
   const treatedPath = path.slice(1);
+
+  useEffect(() => {
+    if (recipes.length) {
+      filterCategories();
+      console.log(filterCategories(), '47');
+    }
+  }, [recipes]);
 
   useEffect(() => {
     dispatch(fetchRecipes('', '', `${treatedPath}`));
