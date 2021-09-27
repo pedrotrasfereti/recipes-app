@@ -1,6 +1,6 @@
 // React
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -15,11 +15,21 @@ import capitalize from '../helpers/capitalizeStr';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
+// Action async
+import { fetchRecipes } from '../redux/actions';
+
 function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
   const recipes = results[foodDrink];
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const path = useLocation().pathname;
+
+  const dispatch = useDispatch();
+  const treatedPath = path.slice(1);
+
+  useEffect(() => {
+    dispatch(fetchRecipes('', '', `${treatedPath}`));
+  }, [path]);
 
   const history = useHistory();
   return (

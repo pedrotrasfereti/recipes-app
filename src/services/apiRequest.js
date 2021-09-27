@@ -7,6 +7,8 @@ const apiRequest = async (searchText, searchFilter, foodDrink) => {
     url = `https://www.${domain}.com/api/json/v1/1/search.php?s=${searchText}`;
   } else if (searchFilter === 'first-letter') {
     url = `https://www.${domain}.com/api/json/v1/1/search.php?f=${searchText}`;
+  } else {
+    url = `https://www.${domain}.com/api/json/v1/1/search.php?s=`;
   }
   const recipes = await (await fetch(url)).json();
   return recipes;
