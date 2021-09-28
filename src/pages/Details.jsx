@@ -16,6 +16,7 @@ import { detailsAPI } from '../services/apiRequest';
 import capitalize from '../helpers/capitalizeStr';
 import renderIngredients from '../helpers/renderIngredients';
 import renderRecs from '../helpers/renderRecs';
+import newRecipe from '../helpers/newRecipe';
 
 // Images
 import emptyHeart from '../images/whiteHeartIcon.svg';
@@ -24,6 +25,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 // Styles
 import '../styles/Details.css';
+import checkFavorite from '../helpers/checkFavorite';
 
 function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
@@ -63,16 +65,8 @@ function Details({ foodDrink = '' }) {
     return null;
   };
 
-  /* Ta favoritado ou não */
-  useEffect(() => {
-    if (localStorage.getItem('favoriteRecipes')) {
-      const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      if (favoriteRecipes.find((favorite) => favorite.id === id)) setIsFavorite(true);
-      else setIsFavorite(false);
-    } else {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
-  }, [id, isFavorite]);
+  /* setIsFavorite */
+  useEffect(() => checkFavorite(id, setIsFavorite), [id, isFavorite]);
 
   /* Gerencia as receitas favoritas */
   const manageFavorites = () => {
@@ -84,17 +78,13 @@ function Details({ foodDrink = '' }) {
       setIsFavorite(false);
     } else {
       const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const currRecipe = { // Receita favoritada
-        id,
-        type: foodDrinkPT.slice(0, foodDrinkPT.length - 1),
-        area: foodDrink === 'meals' ? details[foodDrink][0].strArea : '',
-        category: details[foodDrink][0].strCategory,
-        alcoholicOrNot: foodDrink === 'drinks' ? details[foodDrink][0].strAlcoholic : '',
-        name: details[foodDrink][0][`str${foodDrinkCap}`],
-        image: details[foodDrink][0][`str${foodDrinkCap}Thumb`],
-      };
 
-      favoriteRecipes.push(currRecipe);
+      favoriteRecipes.push(newRecipe(
+        details,
+        foodDrink,
+        foodDrinkPT,
+        foodDrinkCap,
+      ));
 
       localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
       setIsFavorite(true);
