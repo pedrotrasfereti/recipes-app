@@ -26,17 +26,27 @@ function Recipes({ foodDrink }) {
 
   const [categories, setCategories] = useState([]);
 
-  function filterCategories() {
-    let btnsLimit = [];
-    const categoryBTNS = recipes.filter((item) => {
-      const FIVE = 5;
-      if (btnsLimit.length < FIVE && !(btnsLimit.includes(item.strCategory))) {
-        btnsLimit = [...btnsLimit, item.strCategory];
-        return item.strCategory;
+  function filterCategories(maxOfCategoriesToFilter) {
+    // const btnsLimit = [];
+    // const categoryBTNS = recipes.filter((item) => {
+    //   const FIVE = 5;
+    //   if (btnsLimit.length < FIVE && !(btnsLimit.includes(item.strCategory))) {
+    //     btnsLimit = [...btnsLimit, item.strCategory];
+    //     return item.strCategory;
+    //   }
+    // });
+    const categoryForBTNS = recipes.reduce((categoriesName, { strCategory }) => {
+      const notInCategoriesName = !categoriesName.includes(strCategory);
+      const hasSlotCategoriesName = categoriesName.length < maxOfCategoriesToFilter;
+
+      if (notInCategoriesName && hasSlotCategoriesName) {
+        const addToCategoryBTNS = [...categoriesName, strCategory];
+        return addToCategoryBTNS; // Adiciona nova categoria
       }
-    });
-    console.log(categoryBTNS, '39');
-    return categoryBTNS;
+      return categoriesName; // Encontrou uma categoria que já foi adicionada, então não adiciona
+    }, []);
+    console.log(categoryForBTNS, '39');
+    return categoryForBTNS;
   }
 
   const dispatch = useDispatch();
@@ -44,8 +54,8 @@ function Recipes({ foodDrink }) {
 
   useEffect(() => {
     if (recipes.length) {
-      filterCategories();
-      console.log(filterCategories(), '47');
+      filterCategories(5);
+      console.log(filterCategories(5), '47');
     }
   }, [recipes]);
 
