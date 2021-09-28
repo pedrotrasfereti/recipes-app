@@ -17,8 +17,9 @@ import Header from '../components/Header';
 
 // Action async
 import { fetchRecipes } from '../redux/actions';
-import { fetchCategories } from '../services/apiRequest';
+import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
 
+const INITIAL_CATEGORY_FILTER = 'ALL';
 function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
   const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
@@ -26,36 +27,42 @@ function Recipes({ foodDrink }) {
   const path = useLocation().pathname;
 
   const [categories, setCategories] = useState([]);
-
-  // function filterCategories(maxOfCategoriesToFilter, categories) {
-  //   const categoryForBTNS = categories.reduce((categoriesName, { strCategory }) => {
-  //     const notInCategoriesName = !categoriesName.includes(strCategory);
-  //     const hasSlotCategoriesName = categoriesName.length < maxOfCategoriesToFilter;
-
-  //     if (notInCategoriesName && hasSlotCategoriesName) {
-  //       const addToCategoryBTNS = [...categoriesName, strCategory];
-  //       return addToCategoryBTNS; // Adiciona nova categoria
-  //     }
-  //     return categoriesName; // Encontrou uma categoria que já foi adicionada, então não adiciona
-  //   }, []);
-  //   return categoryForBTNS;
-  // }
+  const [categoryFilter, setCategoryFilter] = useState(INITIAL_CATEGORY_FILTER);
+  const [filteredRecipes, setFilteredRecipes] = useState();
 
   const dispatch = useDispatch();
   const treatedPath = path.slice(1);
 
   useEffect(() => {
     const MAX_CATEGORIES = 5;
-    const categoriesResult = fetchCategories(foodDrink)
-      .then((categoriesData) => {
-        console.log('L51', categoriesData, categoriesData[foodDrink]);
-        setCategories(categoriesData[foodDrink].slice(0, MAX_CATEGORIES)); // foodDrink <= recebe "meals" ou "drinks"
-      });
+    const fetchCategories = async () => {
+      const categoriesResult = await categoriesAPI(foodDrink); // retorno da API => { drinks :{}}  || { meals: {}}
+      setCategories(await categoriesResult[foodDrink].slice(0, MAX_CATEGORIES)); // foodDrink => 'meals' or 'drinks'
+    };
+    fetchCategories();
   }, [foodDrink]);
 
   useEffect(() => {
-    dispatch(fetchRecipes('', '', `${treatedPath}`));
+    async function categoryFilterRecipes() {
+      if (categoryFilter !== 'ALL') {
+        const categoryItens = await filterCategoryAPI(foodDrink, categoryFilter);
+        setFilteredRecipes(categoryItens);
+      }
+    }
+    categoryFilterRecipes();
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    const pageChange = () => {
+      setCategoryFilter(INITIAL_CATEGORY_FILTER);
+      dispatch(fetchRecipes('', '', `${treatedPath}`));
+    };
+    pageChange();
   }, [path]);
+
+  function renderRecipes() {
+    return filteredRecipes || recipes;
+  }
 
   const history = useHistory();
   return (
@@ -65,9 +72,12 @@ function Recipes({ foodDrink }) {
       {categories.map(({ strCategory }, index) => (
         <button
           key={ `${strCategory} - ${index}` }
-          onClick={ (e) => console.log(e.target) }
+          onClick={ ({ target: { value } }) => {
+            setCategoryFilter(categoryFilter !== value ? value : INITIAL_CATEGORY_FILTER);
+          } }
           type="button"
           data-testid={ `${strCategory}-category-filter` }
+          value={ strCategory }
         >
           {strCategory}
         </button>))}
@@ -85,9 +95,9 @@ function Recipes({ foodDrink }) {
         }
         {
           recipes && recipes.length > 1 && (
-            recipes.map((recipe, index) => {
+            (filteredRecipes || recipes).map((recipe, index) => {
               const PAGE_LIMIT = 11;
-              if (index <= PAGE_LIMIT) {
+              if (index <= PAGE_LIMIT) { // && categoryFilter ?
                 return (
                   <div
                     key={ recipe[`id${foodDrinkCap}`] }

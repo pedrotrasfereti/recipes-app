@@ -14,9 +14,16 @@ export const apiRequest = async (searchText, searchFilter, foodDrink) => {
   return recipes;
 };
 
-export const fetchCategories = async (foodDrink) => {
+export const categoriesAPI = async (foodDrink) => {
   const domain = foodDrink === 'meals' ? 'themealdb' : 'thecocktaildb';
   const url = `https://www.${domain}.com/api/json/v1/1/list.php?c=list`;
   const categories = await (await fetch(url)).json();
   return categories;
+};
+
+export const filterCategoryAPI = async (foodDrink, categoryBtn) => {
+  const domain = foodDrink === 'meals' ? 'themealdb' : 'thecocktaildb';
+  const url = `https://www.${domain}.com/api/json/v1/1/filter.php?c=${categoryBtn}`;
+  const categoryItens = await (await fetch(url)).json();
+  return categoryItens;
 };
