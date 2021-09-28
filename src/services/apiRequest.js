@@ -1,5 +1,5 @@
-const apiRequest = async (searchText, searchFilter, foodDrink) => {
-  const domain = foodDrink === 'comidas' ? 'themealdb' : 'thecocktaildb';
+export const apiRequest = async (searchText, searchFilter, foodDrink) => {
+  const domain = foodDrink === 'comidas' ? 'themealdb' : 'thecocktaildb'; // foodDrink é o path.slice[/]
   let url = '';
   if (searchFilter === 'ingredient') {
     url = `https://www.${domain}.com/api/json/v1/1/filter.php?i=${searchText}`;
@@ -14,4 +14,9 @@ const apiRequest = async (searchText, searchFilter, foodDrink) => {
   return recipes;
 };
 
-export default apiRequest;
+export const fetchCategories = async (foodDrink) => {
+  const domain = foodDrink === 'meals' ? 'themealdb' : 'thecocktaildb';
+  const url = `https://www.${domain}.com/api/json/v1/1/list.php?c=list`;
+  const categories = await (await fetch(url)).json();
+  return categories;
+};

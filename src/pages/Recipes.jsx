@@ -17,47 +17,41 @@ import Header from '../components/Header';
 
 // Action async
 import { fetchRecipes } from '../redux/actions';
+import { fetchCategories } from '../services/apiRequest';
 
 function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
-  const recipes = results[foodDrink] || [];
+  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const path = useLocation().pathname;
 
   const [categories, setCategories] = useState([]);
 
-  function filterCategories(maxOfCategoriesToFilter) {
-    // const btnsLimit = [];
-    // const categoryBTNS = recipes.filter((item) => {
-    //   const FIVE = 5;
-    //   if (btnsLimit.length < FIVE && !(btnsLimit.includes(item.strCategory))) {
-    //     btnsLimit = [...btnsLimit, item.strCategory];
-    //     return item.strCategory;
-    //   }
-    // });
-    const categoryForBTNS = recipes.reduce((categoriesName, { strCategory }) => {
-      const notInCategoriesName = !categoriesName.includes(strCategory);
-      const hasSlotCategoriesName = categoriesName.length < maxOfCategoriesToFilter;
+  // function filterCategories(maxOfCategoriesToFilter, categories) {
+  //   const categoryForBTNS = categories.reduce((categoriesName, { strCategory }) => {
+  //     const notInCategoriesName = !categoriesName.includes(strCategory);
+  //     const hasSlotCategoriesName = categoriesName.length < maxOfCategoriesToFilter;
 
-      if (notInCategoriesName && hasSlotCategoriesName) {
-        const addToCategoryBTNS = [...categoriesName, strCategory];
-        return addToCategoryBTNS; // Adiciona nova categoria
-      }
-      return categoriesName; // Encontrou uma categoria que já foi adicionada, então não adiciona
-    }, []);
-    console.log(categoryForBTNS, '39');
-    return categoryForBTNS;
-  }
+  //     if (notInCategoriesName && hasSlotCategoriesName) {
+  //       const addToCategoryBTNS = [...categoriesName, strCategory];
+  //       return addToCategoryBTNS; // Adiciona nova categoria
+  //     }
+  //     return categoriesName; // Encontrou uma categoria que já foi adicionada, então não adiciona
+  //   }, []);
+  //   return categoryForBTNS;
+  // }
 
   const dispatch = useDispatch();
   const treatedPath = path.slice(1);
 
   useEffect(() => {
-    if (recipes.length) {
-      filterCategories(5);
-      console.log(filterCategories(5), '47');
-    }
-  }, [recipes]);
+    const MAX_CATEGORIES = 5;
+    const categoriesResult = fetchCategories(foodDrink)
+      .then((categoriesData) => {
+        console.log('L51', categoriesData, categoriesData[foodDrink]);
+        setCategories(categoriesData[foodDrink].slice(0, MAX_CATEGORIES)); // foodDrink <= recebe "meals" ou "drinks"
+      });
+  }, [foodDrink]);
 
   useEffect(() => {
     dispatch(fetchRecipes('', '', `${treatedPath}`));
@@ -67,6 +61,17 @@ function Recipes({ foodDrink }) {
   return (
     <>
       <Header searchBtn title={ capitalize(path.slice(1, path.length)) } />
+      {/* Filtro Por Categoria */}
+      {categories.map(({ strCategory }, index) => (
+        <button
+          key={ `${strCategory} - ${index}` }
+          onClick={ (e) => console.log(e.target) }
+          type="button"
+          data-testid={ `${strCategory}-category-filter` }
+        >
+          {strCategory}
+        </button>))}
+
       <main>
         {
           (!loading && !recipes) && <p>Digite algum termo de pesquisa</p>
