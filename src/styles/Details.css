@@ -1,0 +1,32 @@
+.details-thumb {
+  height: 300px;
+  width: 80%;
+}
+
+.details-carousel {
+  height: 300px;
+  width: 85%;
+  overflow: scroll hidden;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.rec-card {
+  border: 1px solid black;
+}
+
+.rec-card img {
+  height: 150px;
+  width: 150px;
+}
+
+.details-start {
+  appearance: none;
+  position: fixed;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 50px;
+  background-color: slateblue;
+  color: #f6f6f3
+}
