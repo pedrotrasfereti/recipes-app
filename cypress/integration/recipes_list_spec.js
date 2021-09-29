@@ -96,7 +96,7 @@ describe('26 - Carregue as 12 primeiras receitas de comidas ou bebidas, uma em c
   });
 });
 
-describe.only('27 - Implemente os botões de categoria para serem utilizados como filtro', () => {
+describe('27 - Implemente os botões de categoria para serem utilizados como filtro', () => {
   it('Caso as receitas sejam de comida, deve-se exibir as 5 primeiras categorias de comida', () => {
     cy.visit('http://localhost:3000/comidas', {
       onBeforeLoad(win) {
@@ -340,7 +340,7 @@ describe('31 - Desenvolva o filtro de categorias com a opção de filtrar por to
   });
 });
 
-describe('32 - Redirecione a pessoa usuária, ao clicar no card, para a tela de detalhes, que deve mudar a rota e conter o id da receita na URL', () => {
+describe.only('32 - Redirecione a pessoa usuária, ao clicar no card, para a tela de detalhes, que deve mudar a rota e conter o id da receita na URL', () => {
   it('Caso as receitas sejam de comida a rota deve mudar para a tela de detalhes da receita', () => {
     cy.visit('http://localhost:3000/comidas', {
       onBeforeLoad(win) {

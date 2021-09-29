@@ -25,5 +25,5 @@ export const filterCategoryAPI = async (foodDrink, categoryBtn) => {
   const domain = foodDrink === 'meals' ? 'themealdb' : 'thecocktaildb';
   const url = `https://www.${domain}.com/api/json/v1/1/filter.php?c=${categoryBtn}`;
   const categoryItens = await (await fetch(url)).json();
-  return categoryItens;
+  return categoryItens[foodDrink];
 };
