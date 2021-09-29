@@ -56,7 +56,7 @@ function Recipes({ foodDrink }) {
       }
     }
     categoryFilterRecipes();
-  }, [categoryFilter]);
+  }, [categoryFilter, foodDrink]);
 
   useEffect(() => {
     const foodOrDrinkLoad = () => {
