@@ -120,8 +120,8 @@ function Recipes({ foodDrink }) {
                     data-testid={ `${index}-recipe-card` }
                   >
                     <Link
-                      to={ `${(foodDrink === 'meals' ? 'comidas' : 'bebidas')}
-                    /${recipe[`id${foodDrinkCap}`]}` }
+                      to={ `${(foodDrink === 'meals'
+                        ? 'comidas' : 'bebidas')}/${recipe[`id${foodDrinkCap}`]}` }
                     >
                       <img
                         src={ recipe[`str${foodDrinkCap}Thumb`] }
