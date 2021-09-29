@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 
 // Router
 import { useHistory, useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 // Helpers
-import { Link } from 'react-router-dom';
 import capitalize from '../helpers/capitalizeStr';
 
 // Children
@@ -25,12 +25,14 @@ function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
   const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
+
   const path = useLocation().pathname;
+  const history = useHistory();
 
   const [categories, setCategories] = useState(['ALL']);
   const [categoryFilter, setCategoryFilter] = useState(INITIAL_CATEGORY_FILTER);
   const [filteredRecipes, setFilteredRecipes] = useState(recipes);
-  const [loadingFetch, setLoadingFetch] = useState(false);
+  // const [loadingFetch, setLoadingFetch] = useState(false);
 
   const dispatch = useDispatch();
   const treatedPath = path.slice(1);
@@ -47,10 +49,10 @@ function Recipes({ foodDrink }) {
   useEffect(() => {
     async function categoryFilterRecipes() {
       if (categoryFilter !== 'ALL') {
-        setLoadingFetch(true);
+        // setLoadingFetch(true);
         const categoryItens = await filterCategoryAPI(foodDrink, categoryFilter);
         setFilteredRecipes(await categoryItens);
-        setLoadingFetch(false);
+        // setLoadingFetch(false);
       }
     }
     categoryFilterRecipes();
@@ -65,13 +67,10 @@ function Recipes({ foodDrink }) {
   }, [path]);
 
   function renderRecipes() {
-    console.log('renderRecipes()');
     if (categoryFilter === 'ALL') return recipes;
-    if (filteredRecipes && filteredRecipes.length > 1) console.log(filteredRecipes, 'L65');
     return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);
   }
 
-  const history = useHistory();
   return (
     <>
       <Header searchBtn title={ capitalize(path.slice(1, path.length)) } />
@@ -114,13 +113,16 @@ function Recipes({ foodDrink }) {
           recipes && recipes.length > 1 && (
             (renderRecipes()).map((recipe, index) => {
               const PAGE_LIMIT = 11;
-              if (index <= PAGE_LIMIT) { // && categoryFilter ?
+              if (index <= PAGE_LIMIT) {
                 return (
                   <div
                     key={ recipe[`id${foodDrinkCap}`] }
                     data-testid={ `${index}-recipe-card` }
                   >
-                    <Link to={ `${(foodDrink === 'meals' ? 'comidas' : 'bebidas')}/${recipe[`id${foodDrinkCap}`]}` }>
+                    <Link
+                      to={ `${(foodDrink === 'meals' ? 'comidas' : 'bebidas')}
+                    /${recipe[`id${foodDrinkCap}`]}` }
+                    >
                       <img
                         src={ recipe[`str${foodDrinkCap}Thumb`] }
                         data-testid={ `${index}-card-img` }
