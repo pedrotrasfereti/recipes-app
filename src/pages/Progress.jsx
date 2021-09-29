@@ -17,7 +17,9 @@ import { detailsAPI } from '../services/apiRequest';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 import newRecipe from '../helpers/newRecipe';
-import renderIngredients from '../helpers/renderIngredients';
+import RenderIngredients from '../components/RenderIngredients';
+
+// Hooks
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
@@ -32,6 +34,7 @@ function Progress({ foodDrink }) {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  /* fetch recipe */
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
@@ -98,7 +101,7 @@ function Progress({ foodDrink }) {
 
           {/* Ingredientes */}
           <ol>
-            {renderIngredients(recipe, 'checkbox')}
+            <RenderIngredients details={ recipe } checkbox id={ id } foodDrink={ foodDrink } />
           </ol>
 
           {/* Instruções */}

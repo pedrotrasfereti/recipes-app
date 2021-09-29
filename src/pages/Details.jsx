@@ -13,7 +13,6 @@ import { detailsAPI } from '../services/apiRequest';
 
 // HelpersDetails
 import capitalize from '../helpers/capitalizeStr';
-import renderIngredients from '../helpers/renderIngredients';
 import renderRecs from '../helpers/renderRecs';
 import newRecipe from '../helpers/newRecipe';
 
@@ -22,6 +21,7 @@ import '../styles/Details.css';
 import checkFavorite from '../helpers/checkFavorite';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
+import RenderIngredients from '../components/RenderIngredients';
 
 function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
@@ -126,7 +126,7 @@ function Details({ foodDrink = '' }) {
 
           {/* Ingredientes */}
           <ol>
-            { renderIngredients(details) }
+            <RenderIngredients details={ details } />
           </ol>
 
           {/* Instruções */}
