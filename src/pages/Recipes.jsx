@@ -1,12 +1,13 @@
 // React
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // PropTypes
 import PropTypes from 'prop-types';
 
 // Router
 import { useHistory, useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 // Helpers
 import capitalize from '../helpers/capitalizeStr';
@@ -15,16 +16,88 @@ import capitalize from '../helpers/capitalizeStr';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
+// Action async
+import { fetchRecipes } from '../redux/actions';
+import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
+
+const INITIAL_CATEGORY_FILTER = 'ALL';
 function Recipes({ foodDrink }) {
   const { loading, results } = useSelector((state) => state.recipes);
-  const recipes = results[foodDrink];
+  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
-  const path = useLocation().pathname;
 
+  const path = useLocation().pathname;
   const history = useHistory();
+
+  const [categories, setCategories] = useState(['ALL']);
+  const [categoryFilter, setCategoryFilter] = useState(INITIAL_CATEGORY_FILTER);
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+  // const [loadingFetch, setLoadingFetch] = useState(false);
+
+  const dispatch = useDispatch();
+  const treatedPath = path.slice(1);
+
+  useEffect(() => {
+    const MAX_CATEGORIES = 5;
+    const fetchCategories = async () => {
+      const categoriesResult = await categoriesAPI(foodDrink); // retorno da API => { drinks :{}}  || { meals: {}}
+      setCategories(await categoriesResult[foodDrink].slice(0, MAX_CATEGORIES)); // foodDrink => 'meals' or 'drinks'
+    };
+    fetchCategories();
+  }, [foodDrink]);
+
+  useEffect(() => {
+    async function categoryFilterRecipes() {
+      if (categoryFilter !== 'ALL') {
+        // setLoadingFetch(true);
+        const categoryItens = await filterCategoryAPI(foodDrink, categoryFilter);
+        setFilteredRecipes(await categoryItens);
+        // setLoadingFetch(false);
+      }
+    }
+    categoryFilterRecipes();
+  }, [categoryFilter, foodDrink]);
+
+  useEffect(() => {
+    const foodOrDrinkLoad = () => {
+      setCategoryFilter(INITIAL_CATEGORY_FILTER);
+      dispatch(fetchRecipes('', '', `${treatedPath}`));
+    };
+    foodOrDrinkLoad();
+  }, [path, treatedPath, dispatch]);
+
+  function renderRecipes() {
+    if (categoryFilter === 'ALL') return recipes;
+    return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);
+  }
+
   return (
     <>
       <Header searchBtn title={ capitalize(path.slice(1, path.length)) } />
+      {/* Filtro Por Categoria */}
+      <button
+        onClick={ ({ target: { value } }) => {
+          setCategoryFilter(value);
+        } }
+        type="button"
+        data-testid="All-category-filter"
+        value="ALL"
+      >
+        All
+      </button>
+      {categories.map(({ strCategory }, index) => (
+        <button
+          key={ `${strCategory} - ${index}` }
+          onClick={ ({ target: { value } }) => {
+            setCategoryFilter(categoryFilter !== value ? value : INITIAL_CATEGORY_FILTER);
+          } }
+          type="button"
+          data-testid={ `${strCategory}-category-filter` }
+          value={ strCategory }
+        >
+          {strCategory}
+        </button>))}
+
       <main>
         {
           (!loading && !recipes) && <p>Digite algum termo de pesquisa</p>
@@ -38,7 +111,7 @@ function Recipes({ foodDrink }) {
         }
         {
           recipes && recipes.length > 1 && (
-            recipes.map((recipe, index) => {
+            (renderRecipes()).map((recipe, index) => {
               const PAGE_LIMIT = 11;
               if (index <= PAGE_LIMIT) {
                 return (
@@ -46,11 +119,16 @@ function Recipes({ foodDrink }) {
                     key={ recipe[`id${foodDrinkCap}`] }
                     data-testid={ `${index}-recipe-card` }
                   >
-                    <img
-                      src={ recipe[`str${foodDrinkCap}Thumb`] }
-                      data-testid={ `${index}-card-img` }
-                      alt={ recipe[`str${foodDrinkCap}`] }
-                    />
+                    <Link
+                      to={ `${(foodDrink === 'meals'
+                        ? 'comidas' : 'bebidas')}/${recipe[`id${foodDrinkCap}`]}` }
+                    >
+                      <img
+                        src={ recipe[`str${foodDrinkCap}Thumb`] }
+                        data-testid={ `${index}-card-img` }
+                        alt={ recipe[`str${foodDrinkCap}`] }
+                      />
+                    </Link>
                     <span
                       data-testid={ `${index}-card-name` }
                     >
