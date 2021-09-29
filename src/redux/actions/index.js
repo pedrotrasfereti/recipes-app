@@ -1,5 +1,5 @@
 // Services
-import apiRequest from '../../services/apiRequest';
+import { apiRequest } from '../../services/apiRequest';
 
 // Action
 export const REQUEST_RECIPES = 'REQUEST_RECIPES';

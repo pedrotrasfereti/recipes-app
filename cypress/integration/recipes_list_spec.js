@@ -35,13 +35,13 @@ const checkFirstTwelveRecipes = (recipes, meal = true) => {
 };
 
 describe('25 - Implemente os elementos da tela principal de receitas respeitando os atributos descritos no protótipo', () => {
+  
   it('A tela tem os data-testids de todos os 12 cards da tela de comidas', () => {
     cy.visit('http://localhost:3000/comidas', {
       onBeforeLoad(win) {
         win.fetch = fetchMock;
       },
     });
-
     for (let index = 0; index < 12; index += 1) {
       cy.get(`[data-testid="${index}-recipe-card"]`);
       cy.get(`[data-testid="${index}-card-img"]`);

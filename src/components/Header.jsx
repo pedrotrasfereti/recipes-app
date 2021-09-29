@@ -15,7 +15,6 @@ import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header({ searchBtn, title }) {
-  console.log(title);
   /* Router */
   const history = useHistory();
 
