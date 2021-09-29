@@ -1,5 +1,5 @@
 // Services
-import { apiRequest } from '../../services/apiRequest';
+import { recipesAPI } from '../../services/apiRequest';
 
 // Action
 export const REQUEST_RECIPES = 'REQUEST_RECIPES';
@@ -15,7 +15,7 @@ export const fetchRecipes = (searchText, searchFilter, foodDrink) => async (disp
   try {
     dispatch(requestRecipes());
 
-    const recipes = await apiRequest(searchText, searchFilter, foodDrink);
+    const recipes = await recipesAPI(searchText, searchFilter, foodDrink);
     dispatch(requestSuccess(recipes));
   } catch (error) {
     dispatch(requestFail(error));

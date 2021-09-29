@@ -7,6 +7,9 @@ export { default as Recipes } from './Recipes';
 /* /comidas/:id & /bebidas/:id */
 export { default as Details } from './Details';
 
+/* /comidas/:id/in-progress /bebidas/:id/in-progress */
+export { default as Progress } from './Progress';
+
 /* /perfil */
 export { default as Profile } from './Profile';
 

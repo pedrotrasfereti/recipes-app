@@ -10,6 +10,7 @@ import {
   Login,
   Recipes,
   Details,
+  Progress,
   Profile,
   Explore,
   ExploreFoods,
@@ -38,12 +39,22 @@ function App() {
       <Route
         exact
         path="/comidas/:id"
-        render={ (/* foodDrink */) => <Details /> }
+        render={ () => <Details foodDrink="meals" /> }
       />
       <Route
         exact
         path="/bebidas/:id"
-        render={ (/* foodDrink */) => <Details /> }
+        render={ () => <Details foodDrink="drinks" /> }
+      />
+      <Route
+        exact
+        path="/comidas/:id/in-progress"
+        render={ () => <Progress foodDrink="meals" /> }
+      />
+      <Route
+        exact
+        path="/bebidas/:id/in-progress"
+        render={ () => <Progress foodDrink="drinks" /> }
       />
       <Route exact path="/perfil" component={ Profile } />
       <Route exact path="/explorar" component={ Explore } />
