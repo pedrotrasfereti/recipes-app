@@ -9,23 +9,19 @@ import PropTypes from 'prop-types';
 
 // Services
 import { Modal } from 'react-bootstrap';
-import copy from 'clipboard-copy';
 import { detailsAPI } from '../services/apiRequest';
 
-// Helpers
+// HelpersDetails
 import capitalize from '../helpers/capitalizeStr';
 import renderIngredients from '../helpers/renderIngredients';
 import renderRecs from '../helpers/renderRecs';
 import newRecipe from '../helpers/newRecipe';
 
-// Images
-import emptyHeart from '../images/whiteHeartIcon.svg';
-import fullHeart from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
-
 // Styles
 import '../styles/Details.css';
 import checkFavorite from '../helpers/checkFavorite';
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 
 function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
@@ -35,7 +31,7 @@ function Details({ foodDrink = '' }) {
   const foodDrinkPT = path.split('/')[1]; // Comida ou Bebida
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
 
-  const [details, setDetails] = useState({}); // Detalhes
+  const [details, setDetails] = useState(); // Detalhes
   const [loading, setLoading] = useState(false); // Carregando
   const [isFavorite, setIsFavorite] = useState(false); // Favoritado
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
@@ -48,12 +44,13 @@ function Details({ foodDrink = '' }) {
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
-      setDetails(await detailsAPI(id, foodDrinkPT));
+      const data = await detailsAPI(id, foodDrinkPT);
+      setDetails(data[foodDrink][0]);
       setLoading(false);
       setRecs(await renderRecs(foodDrinkPT));
     };
     fetchRecipe();
-  }, [path, id, foodDrinkPT]);
+  }, [path, id, foodDrinkPT, foodDrink]);
 
   /* Renderização condicional do texto "iniciar"/"continuar" receita */
   const recipeProgress = () => {
@@ -95,74 +92,55 @@ function Details({ foodDrink = '' }) {
     <section>
       {/* Carregando */}
       { loading && <span>Carregando...</span> }
-      { Object.prototype.hasOwnProperty.call(details, foodDrink) && (
+      { details && (
         <>
           {/* Thumb */}
           <img
-            src={ details[foodDrink][0][`str${foodDrinkCap}Thumb`] }
-            alt={ details[foodDrink][0][`str${foodDrinkCap}`] }
+            src={ details[`str${foodDrinkCap}Thumb`] }
+            alt={ details[`str${foodDrinkCap}`] }
             className="details-thumb"
             data-testid="recipe-photo"
           />
 
           {/* Título */}
           <h1 className="details-title" data-testid="recipe-title">
-            { details[foodDrink][0][`str${foodDrinkCap}`] }
+            { details[`str${foodDrinkCap}`] }
           </h1>
 
           {/* Compartilhar */}
-          <button
-            type="button"
-            className="details-share-btn"
-            data-testid="share-btn"
-            onClick={ () => {
-              copy(window.location.href);
-              handleShowModal();
-            } }
-          >
-            <img src={ shareIcon } alt="Copiar Link" />
-          </button>
+          <ShareButton handleShowModal={ handleShowModal } />
 
           {/* Favoritar */}
-          <button
-            type="button"
-            className="details-favorites-btn"
-            onClick={ () => manageFavorites() }
-          >
-            <img
-              data-testid="favorite-btn"
-              src={ isFavorite ? fullHeart : emptyHeart }
-              alt={ isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }
-            />
-          </button>
+          <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
 
           {/* Categoria */}
           <span className="details-category" data-testid="recipe-category">
             {
               foodDrink === 'drinks' ? (
-                details[foodDrink][0].strAlcoholic
+                details.strAlcoholic
               ) : (
-                details[foodDrink][0].strCategory
+                details.strCategory
               )
             }
           </span>
 
           {/* Ingredientes */}
           <ol>
-            { renderIngredients(details[foodDrink][0]) }
+            { renderIngredients(details) }
           </ol>
 
           {/* Instruções */}
+          <h1>Instructions</h1>
           <p className="details-instructions" data-testid="instructions">
-            { details[foodDrink][0].strInstructions }
+            { details.strInstructions }
           </p>
 
           {/* Vídeo YT */}
           { foodDrink === 'meals' && (
             <iframe
-              title={ `How to prepare ${details[foodDrink][0][`str${foodDrinkCap}`]}` }
+              title={ `How to prepare ${details[`str${foodDrinkCap}`]}` }
               data-testid="video"
-              src={ (details[foodDrink][0].strYoutube.replace('watch?v=', 'embed/')) }
+              src={ (details.strYoutube.replace('watch?v=', 'embed/')) }
               allowFullScreen
             />
           )}
