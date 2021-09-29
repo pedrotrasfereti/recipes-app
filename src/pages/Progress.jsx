@@ -101,7 +101,12 @@ function Progress({ foodDrink }) {
 
           {/* Ingredientes */}
           <ol>
-            <RenderIngredients details={ recipe } checkbox id={ id } foodDrink={ foodDrink } />
+            <RenderIngredients
+              details={ recipe }
+              checkbox
+              id={ id }
+              foodDrink={ foodDrink }
+            />
           </ol>
 
           {/* Instruções */}
