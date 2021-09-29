@@ -64,7 +64,7 @@ function Recipes({ foodDrink }) {
       dispatch(fetchRecipes('', '', `${treatedPath}`));
     };
     foodOrDrinkLoad();
-  }, [path]);
+  }, [path, treatedPath, dispatch]);
 
   function renderRecipes() {
     if (categoryFilter === 'ALL') return recipes;
