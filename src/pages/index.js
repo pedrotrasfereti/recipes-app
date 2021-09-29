@@ -13,23 +13,15 @@ export { default as Progress } from './Progress';
 /* /perfil */
 export { default as Profile } from './Profile';
 
-/* /explorar */
+/*
+  /explorar
+  /explorar/comidas
+  /explorar/bebidas
+  /explorar/comidas/area
+  /explorar/comidas/ingredientes
+  /explorar/bebidas/ingredientes
+*/
 export { default as Explore } from './Explore';
-
-/* /explorar/comidas */
-export { default as ExploreFoods } from './ExploreFoods';
-
-/* /explorar/bebidas */
-export { default as ExploreDrinks } from './ExploreDrinks';
-
-/* /explorar/comidas/area */
-export { default as ExploreFoodsArea } from './ExploreFoodsArea';
-
-/* /explorar/comidas/ingredientes */
-export { default as ExploreFoodsIngr } from './ExploreFoodsIngr';
-
-/* /explorar/bebidas/ingredientes */
-export { default as ExploreDrinksIngr } from './ExploreDrinksIngr';
 
 /* /receitas-feitas */
 export { default as Done } from './Done';

@@ -1,14 +1,27 @@
 // React
 import React from 'react';
-import Footer from '../components/Footer';
 
-// // Children
+// Router
+import { useHistory } from 'react-router-dom';
+
+// Children
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+import ExploreNav from '../components/ExploreNav';
 
-function Explore() {
+// Helpers
+import explorePageTitle from '../helpers/explorePageTitle';
+
+function Explore(props) {
+  // History
+  const history = useHistory();
+
   return (
     <section>
-      <Header title="Explorar" />
+      <Header title={ explorePageTitle(props) } />
+      {
+        !Object.keys(props).length && <ExploreNav history={ history } />
+      }
       <Footer />
     </section>
   );
