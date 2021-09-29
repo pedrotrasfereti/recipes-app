@@ -20,9 +20,9 @@ const renderIngredients = (details = {}, checkbox = '') => {
   /* Retornar lista de elementos */
   if (checkbox) {
     return combined.map((item, i) => (
-      <label htmlFor={ i } key={ i }>
+      <label data-testid={ `${i}-ingredient-step` } htmlFor={ i } key={ i }>
         {item}
-        <input data-testid={ `${i}-ingredient-step` } type="checkbox" id={ i } />
+        <input type="checkbox" id={ i } />
       </label>
     ));
   }
