@@ -1,8 +1,8 @@
 // React
 import React from 'react';
 
-const renderIngredients = (details = {}) => {
-  const detailsArr = Object.entries(details);
+function RenderIngredients({ data }) {
+  const detailsArr = Object.entries(data);
 
   /* Pegar ingredientes */
   const ingrValues = detailsArr.filter((entry) => (
@@ -17,7 +17,6 @@ const renderIngredients = (details = {}) => {
   /* Mergiar arrays */
   const combined = ingrValues.map((value, i) => [`${value} - ${measureValues[i]}`]);
 
-  /* Retornar lista de elementos */
   return combined.map((item, i) => (
     <li
       key={ item }
@@ -26,6 +25,6 @@ const renderIngredients = (details = {}) => {
       { item }
     </li>
   ));
-};
+}
 
-export default renderIngredients;
+export default RenderIngredients;

@@ -1,11 +1,11 @@
 const newRecipe = (details, foodDrink, foodDrinkPT, foodDrinkCap) => ({
-  id: details[foodDrink][0][`id${foodDrinkCap}`],
+  id: details[`id${foodDrinkCap}`],
   type: foodDrinkPT.slice(0, foodDrinkPT.length - 1),
-  area: foodDrink === 'meals' ? details[foodDrink][0].strArea : '',
-  category: details[foodDrink][0].strCategory,
-  alcoholicOrNot: foodDrink === 'drinks' ? details[foodDrink][0].strAlcoholic : '',
-  name: details[foodDrink][0][`str${foodDrinkCap}`],
-  image: details[foodDrink][0][`str${foodDrinkCap}Thumb`],
+  area: foodDrink === 'meals' ? details.strArea : '',
+  category: details.strCategory,
+  alcoholicOrNot: foodDrink === 'drinks' ? details.strAlcoholic : '',
+  name: details[`str${foodDrinkCap}`],
+  image: details[`str${foodDrinkCap}Thumb`],
 });
 
 export default newRecipe;
