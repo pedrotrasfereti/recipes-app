@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -19,7 +19,8 @@ import FavoriteButton from '../components/FavoriteButton';
 import newRecipe from '../helpers/newRecipe';
 import RenderCheckbox from '../components/RenderCheckbox';
 
-// Hooks
+// Styles
+import '../styles/Progress.css';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
@@ -30,6 +31,9 @@ function Progress({ foodDrink }) {
   const [loading, setLoading] = useState(false); // Carregando
   const [recipe, setRecipe] = useState(); // Detalhes
   const [isFavorite, setIsFavorite] = useState(false); // Favoritado
+  const [doneRecipe, setDoneRecipe] = useState(true); // Finalizar receita
+
+  const history = useHistory();
 
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
   const handleShowModal = () => setShowModal(true);
@@ -105,8 +109,10 @@ function Progress({ foodDrink }) {
             <RenderCheckbox
               data={ recipe }
               checkbox
+              className="progress-done"
               id={ id }
               foodDrink={ foodDrink }
+              setDoneRecipe={ setDoneRecipe }
             />
           </ol>
 
@@ -117,7 +123,10 @@ function Progress({ foodDrink }) {
           {/* Iniciar receita */}
           <button
             type="button"
+            className="progress-done"
             data-testid="finish-recipe-btn"
+            disabled={ doneRecipe }
+            onClick={ () => history.push('/receitas-feitas') }
           >
             Finalizar Receita
           </button>

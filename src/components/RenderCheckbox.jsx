@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 /* custom hooks */
 import useIngredients from '../hooks/useIngredients';
 
-function RenderCheckbox({ data, id, foodDrink }) {
+function RenderCheckbox({ data, id, foodDrink, setDoneRecipe }) {
 /* configurar chave para o localStorage */
   const key = foodDrink === 'meals' ? 'meals' : 'cocktails';
 
@@ -43,6 +43,10 @@ function RenderCheckbox({ data, id, foodDrink }) {
       setIngredients({ ...ingredients, [key]: { ...ids, [id]: filteredList } });
     }
   };
+
+  useEffect(() => {
+    if (combined.length === list.length) setDoneRecipe(false);
+  }, [combined.length, list.length, setDoneRecipe]);
 
   /* Retornar lista de checkbox */
   return combined.map((item, i) => {
