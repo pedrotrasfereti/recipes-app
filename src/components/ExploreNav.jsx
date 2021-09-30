@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 // PropTypes
 import PropTypes from 'prop-types';
 
-const ExploreNav = ({ history = [] }) => (
+const ExploreNav = ({ history }) => (
   <>
     {/* Ir para tela de explorar comidas */}
     <button
