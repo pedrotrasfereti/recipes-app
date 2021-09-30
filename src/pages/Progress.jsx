@@ -23,6 +23,7 @@ import RenderIngredients from '../components/RenderIngredients';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
+  const copyPath = path.replace('/in-progress', '');
   const id = path.split('/')[2];
   const foodDrinkPT = path.split('/')[1];
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
@@ -87,7 +88,7 @@ function Progress({ foodDrink }) {
           <h1 data-testid="recipe-title">{ recipe[`str${foodDrinkCap}`] }</h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } />
+          <ShareButton handleShowModal={ handleShowModal } url={ copyPath } />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />

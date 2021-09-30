@@ -108,7 +108,7 @@ function Details({ foodDrink = '' }) {
           </h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } />
+          <ShareButton handleShowModal={ handleShowModal } url={ path } />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />

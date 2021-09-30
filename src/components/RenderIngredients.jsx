@@ -1,8 +1,11 @@
 // React
-import React, { useEffect } from 'react';
+import React from 'react';
 import useIngredients from '../hooks/useIngredients';
 
 function RenderIngredients({ details, checkbox, id, foodDrink }) {
+  /* configurar chave para o localStorage */
+  const key = foodDrink === 'meals' ? 'meals' : 'cocktails';
+
   const detailsArr = Object.entries(details);
 
   /* Pegar ingredientes */
@@ -18,32 +21,45 @@ function RenderIngredients({ details, checkbox, id, foodDrink }) {
   /* Mergiar arrays */
   const combined = ingrValues.map((value, i) => [`${value} - ${measureValues[i]}`]);
 
+  /* lista de ingredientes */
   const INITIAL_STATE = {
     cocktails: {},
     meals: {},
   };
   const [ingredients,
     setIngredients] = useIngredients('inProgressRecipes', INITIAL_STATE);
-  const pushIngredient = (ingredient) => {
-    const key = foodDrink === 'meals' ? 'meals' : 'cocktails';
-    const list = ingredients[key][id];
-    console.log(ingredients);
-    setIngredients({ ...ingredients, [key]: { [id]: [...list, ingredient] } });
+
+  /* ids do local storage */
+  const ids = ingredients[key];
+  /* lista no local storage */
+  const list = ingredients[key][id] ? ingredients[key][id] : [];
+
+  const pushIngredient = (ingredient, checked) => {
+    if (checked) {
+      setIngredients({ ...ingredients, [key]: { ...ids, [id]: [...list, ingredient] } });
+    } else {
+      const filteredList = list.filter((item) => item !== ingredient);
+      setIngredients({ ...ingredients, [key]: { ...ids, [id]: filteredList } });
+    }
   };
 
   /* Retornar lista de elementos */
   if (checkbox) {
-    return combined.map((item, i) => (
-      <label data-testid={ `${i}-ingredient-step` } htmlFor={ i } key={ i }>
-        {item}
-        <input
-          type="checkbox"
-          id={ i }
-          value={ item }
-          onClick={ (e) => pushIngredient(e.target.value) }
-        />
-      </label>
-    ));
+    return combined.map((item, i) => {
+      const checked = list.includes(item[0]);
+      return (
+        <label data-testid={ `${i}-ingredient-step` } htmlFor={ i } key={ i }>
+          {item}
+          <input
+            type="checkbox"
+            defaultChecked={ checked }
+            id={ i }
+            value={ item }
+            onClick={ (e) => pushIngredient(e.target.value, e.target.checked) }
+          />
+        </label>
+      );
+    });
   }
   return combined.map((item, i) => (
     <li
