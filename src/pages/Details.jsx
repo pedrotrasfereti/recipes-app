@@ -126,7 +126,7 @@ function Details({ foodDrink = '' }) {
 
           {/* Ingredientes */}
           <ol>
-            <RenderIngredients details={ details } />
+            <RenderIngredients data={ details } />
           </ol>
 
           {/* Instruções */}

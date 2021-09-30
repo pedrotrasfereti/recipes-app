@@ -17,7 +17,7 @@ import { detailsAPI } from '../services/apiRequest';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 import newRecipe from '../helpers/newRecipe';
-import RenderIngredients from '../components/RenderIngredients';
+import RenderCheckbox from '../components/RenderCheckbox';
 
 // Hooks
 
@@ -102,8 +102,8 @@ function Progress({ foodDrink }) {
 
           {/* Ingredientes */}
           <ol>
-            <RenderIngredients
-              details={ recipe }
+            <RenderCheckbox
+              data={ recipe }
               checkbox
               id={ id }
               foodDrink={ foodDrink }
