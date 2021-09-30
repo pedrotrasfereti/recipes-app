@@ -17,6 +17,7 @@ import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelpe
 // Images
 import shareIcon from '../images/shareIcon.svg';
 import fullHeart from '../images/blackHeartIcon.svg';
+import notEmpty from '../helpers/notEmpty';
 
 function Favorites() {
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
@@ -126,7 +127,7 @@ function Favorites() {
           Drinks
         </Button>
       </section>
-      { favorites.length ? renderFavorites() : <p>Adicione novos favoritos!</p> }
+      { notEmpty(favorites) ? renderFavorites() : <p>Adicione novos favoritos!</p> }
     </section>
   );
 }

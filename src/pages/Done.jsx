@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Bootstrap
@@ -16,6 +16,7 @@ import { loadLocalStorage } from '../helpers/localStorageHelper';
 
 // Images
 import shareIcon from '../images/shareIcon.svg';
+import notEmpty from '../helpers/notEmpty';
 
 function Done() {
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
@@ -27,6 +28,59 @@ function Done() {
   function filterByType() { // talvez vire uam funcao helper, pois está sendo usada em Favorites
     const filtering = doneRecipes.filter((recipe) => recipe.type === filterBtns);
     return filtering;
+  }
+
+  function renderDoneRecipes() {
+    const filterCheck = filterBtns === 'all' ? doneRecipes : filterByType();
+    return (filterCheck).map(({
+      id,
+      image,
+      category,
+      type,
+      name,
+      area,
+      alcoholicOrNot,
+    }, index) => (
+      <div key={ index } data-testid={ type }>
+        <Link to={ `${type}s/${id}` }>
+          <img
+            style={ { width: '100%' } }
+            src={ image }
+            alt=""
+            data-testid={ `${index}-horizontal-image` }
+          />
+        </Link>
+        <h4
+          data-testid={ `${index}-horizontal-top-text` }
+        >
+          { type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}` }
+        </h4>
+        <p>{type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}`}</p>
+        <Link to={ `${type}s/${id}` }>
+          <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+        </Link>
+        <button
+          type="button"
+          className="details-share-btn"
+          onClick={ () => {
+            copy(`http://localhost:3000/${type}s/${id}`); // Copia o link de acordo com o tipo e id
+            handleShowModal();
+          } }
+        >
+          <img
+            src={ shareIcon }
+            alt="Copiar Link"
+            data-testid={ `${index}-horizontal-share-btn` }
+          />
+        </button>
+
+        <Modal show={ showModal } onHide={ handleCloseModal }>
+          <Modal.Header closeButton>
+            Link copiado!
+          </Modal.Header>
+        </Modal>
+      </div>
+    ));
   }
 
   return (
@@ -55,6 +109,7 @@ function Done() {
           Drinks
         </Button>
       </section>
+      { notEmpty(doneRecipes) ? renderDoneRecipes() : <p>Adicione novas Receitas!</p> }
     </section>
   );
 }

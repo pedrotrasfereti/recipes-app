@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 
 // Children
 import Header from '../components/Header';
+import { loadLocalStorage } from '../helpers/localStorageHelper';
 
 function Profile() {
   /* usando useHistory para trocar de pagina */
@@ -16,11 +17,11 @@ function Profile() {
     localStorage.clear();
     history.push('/');
   };
-
+  const user = loadLocalStorage('user'); // modificado a linha 24
   return (
     <div>
       <Header title="Perfil" />
-      <p data-testid="profile-email">{JSON.parse(localStorage.getItem('user')).email}</p>
+      <p data-testid="profile-email">{user.email}</p>
       <Button
         onClick={ () => history.push('/receitas-feitas') }
         data-testid="profile-done-btn"
