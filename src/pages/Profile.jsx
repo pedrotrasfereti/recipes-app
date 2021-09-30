@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import Footer from '../components/Footer';
 
@@ -20,27 +21,27 @@ function Profile() {
     <div>
       <Header title="Perfil" />
       <p data-testid="profile-email">{JSON.parse(localStorage.getItem('user')).email}</p>
-      <button
+      <Button
         onClick={ () => history.push('/receitas-feitas') }
-        type="button"
         data-testid="profile-done-btn"
+        variant="secondary"
       >
         Receitas Feitas
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={ () => history.push('/receitas-favoritas') }
-        type="button"
         data-testid="profile-favorite-btn"
+        variant="secondary"
       >
         Receitas Favoritas
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={ () => handleLogout() }
-        type="button"
         data-testid="profile-logout-btn"
+        variant="secondary"
       >
         Sair
-      </button>
+      </Button>
       <Footer />
     </div>
   );
