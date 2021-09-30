@@ -1,5 +1,6 @@
 // React
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Bootstrap
 import { Button, Modal } from 'react-bootstrap';
@@ -47,14 +48,23 @@ function Favorites() {
       alcoholicOrNot,
     }, index) => (
       <div key={ index } data-testid={ type }>
-        <img src={ image } alt="" data-testid={ `${index}-horizontal-image` } />
+        <Link to={ `${type}s/${id}` }>
+          <img
+            style={ { width: '100%' } }
+            src={ image }
+            alt=""
+            data-testid={ `${index}-horizontal-image` }
+          />
+        </Link>
         <h4
           data-testid={ `${index}-horizontal-top-text` }
         >
           { type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}` }
         </h4>
         <p>{type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}`}</p>
-        <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+        <Link to={ `${type}s/${id}` }>
+          <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+        </Link>
         <button
           type="button"
           className="details-share-btn"
