@@ -22,12 +22,22 @@ function Favorites() {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const [favorites, setFavorites] = useState(loadLocalStorage('favoriteRecipes'));
+  const [filterBtns, setFilterBtns] = useState('all');
 
-  function removeFavorite(target) {
-    return target; // implemetar funcao
+  const removeFavorite = (name) => {
+    const filterFavorites = favorites.filter((favorite) => favorite.id !== name);
+    setFavorites(filterFavorites);
+    saveLocalStorage('favoriteRecipes', filterFavorites);
+  };
+
+  function filterByType() {
+    const filtering = favorites.filter((favorite) => favorite.type === filterBtns);
+    return filtering;
   }
+
   function renderFavorites() {
-    return favorites.map(({
+    const filterCheck = filterBtns === 'all' ? favorites : filterByType();
+    return (filterCheck).map(({
       id,
       image,
       category,
@@ -62,9 +72,10 @@ function Favorites() {
         <button
           type="button"
           className="details-favorites-btn"
-          onClick={ ({ target }) => removeFavorite(target) }
+          onClick={ ({ target }) => removeFavorite(target.name) }
         >
           <img
+            name={ id }
             data-testid={ `${index}-horizontal-favorite-btn` }
             src={ fullHeart }
             alt="Remover dos favoritos"
@@ -83,11 +94,29 @@ function Favorites() {
     <section>
       <Header title="Receitas Favoritas" />
       <section>
-        <Button variant="dark" data-testid="filter-by-all-btn">All</Button>
-        <Button variant="danger" data-testid="filter-by-food-btn">Food</Button>
-        <Button variant="success" data-testid="filter-by-drink-btn">Success</Button>
+        <Button
+          variant="dark"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setFilterBtns('all') }
+        >
+          All
+        </Button>
+        <Button
+          variant="danger"
+          data-testid="filter-by-food-btn"
+          onClick={ () => setFilterBtns('comida') }
+        >
+          Food
+        </Button>
+        <Button
+          variant="success"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => setFilterBtns('bebida') }
+        >
+          Drinks
+        </Button>
       </section>
-      {renderFavorites()}
+      { favorites.length ? renderFavorites() : <p>Adicione novos favoritos!</p> }
     </section>
   );
 }
