@@ -12,7 +12,7 @@ import Header from '../components/Header';
 // Services
 
 // Helpers
-import { loadLocalStorage } from '../helpers/localStorageHelper';
+// import { loadLocalStorage } from '../helpers/localStorageHelper';
 
 // Images
 import shareIcon from '../images/shareIcon.svg';
@@ -22,7 +22,7 @@ function Done() {
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-  const [doneRecipes, setDoneRecipes] = useState(loadLocalStorage('doneRecipes'));
+  // const [doneRecipes, setDoneRecipes] = useState(loadLocalStorage('doneRecipes'));
   const [filterBtns, setFilterBtns] = useState('all');
 
   function filterByType() { // talvez vire uam funcao helper, pois está sendo usada em Favorites
@@ -36,7 +36,11 @@ function Done() {
         {
           tags.map((tag, index) => (
             <ButtonGroup key={ index } className="me-2" aria-label="First group">
-              <Button data-testid={ `${index}-${tagName}-horizontal-tag` }>{ tag }</Button>
+              <Button
+                data-testid={ `${index}-${tagName}-horizontal-tag` }
+              >
+                { tag }
+              </Button>
             </ButtonGroup>))
         }
       </ButtonToolbar>
