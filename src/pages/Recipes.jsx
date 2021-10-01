@@ -20,23 +20,26 @@ import Header from '../components/Header';
 import { fetchRecipes } from '../redux/actions';
 import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
 
-const INITIAL_CATEGORY_FILTER = 'ALL';
 function Recipes({ foodDrink }) {
-  const { loading, results } = useSelector((state) => state.recipes);
-  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
+  // Variables
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
 
-  const path = useLocation().pathname;
-  const history = useHistory();
+  // Redux
+  const { loading, results } = useSelector((state) => state.recipes);
+  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
 
-  const [categories, setCategories] = useState(['ALL']);
-  const [categoryFilter, setCategoryFilter] = useState(INITIAL_CATEGORY_FILTER);
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
-  // const [loadingFetch, setLoadingFetch] = useState(false);
-
+  // Hooks
   const dispatch = useDispatch();
+  const history = useHistory();
+  const path = useLocation().pathname;
   const treatedPath = path.slice(1);
 
+  // State Hooks
+  const [categories, setCategories] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+
+  /* Faz fetch das categorias */
   useEffect(() => {
     const MAX_CATEGORIES = 5;
     const fetchCategories = async () => {
@@ -46,28 +49,29 @@ function Recipes({ foodDrink }) {
     fetchCategories();
   }, [foodDrink]);
 
+  /* Filtra as receitas baseado na categoria selecionada */
   useEffect(() => {
     async function categoryFilterRecipes() {
-      if (categoryFilter !== 'ALL') {
-        // setLoadingFetch(true);
+      if (categoryFilter !== 'All') {
         const categoryItens = await filterCategoryAPI(foodDrink, categoryFilter);
         setFilteredRecipes(await categoryItens);
-        // setLoadingFetch(false);
       }
     }
     categoryFilterRecipes();
   }, [categoryFilter, foodDrink]);
 
+  /* !! Pode ser refatorado */
   useEffect(() => {
     const foodOrDrinkLoad = () => {
-      setCategoryFilter(INITIAL_CATEGORY_FILTER);
+      setCategoryFilter('All');
       dispatch(fetchRecipes('', '', `${treatedPath}`));
     };
     foodOrDrinkLoad();
   }, [path, treatedPath, dispatch]);
 
+  /* !! Pode ser refatorado */
   function renderRecipes() {
-    if (categoryFilter === 'ALL') return recipes;
+    if (categoryFilter === 'All') return recipes;
     return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);
   }
 
@@ -81,15 +85,16 @@ function Recipes({ foodDrink }) {
         } }
         type="button"
         data-testid="All-category-filter"
-        value="ALL"
+        value="All"
       >
         All
       </button>
+
       {categories.map(({ strCategory }, index) => (
         <button
           key={ `${strCategory} - ${index}` }
           onClick={ ({ target: { value } }) => {
-            setCategoryFilter(categoryFilter !== value ? value : INITIAL_CATEGORY_FILTER);
+            setCategoryFilter(categoryFilter !== value ? value : 'All');
           } }
           type="button"
           data-testid={ `${strCategory}-category-filter` }
@@ -99,12 +104,8 @@ function Recipes({ foodDrink }) {
         </button>))}
 
       <main>
-        {
-          (!loading && !recipes) && <p>Digite algum termo de pesquisa</p>
-        }
-        {
-          loading && <h1>Carregando...</h1>
-        }
+        { (!loading && !recipes) && <p>Digite algum termo de pesquisa</p> }
+        { loading && <h1>Carregando...</h1> }
         {
           recipes === null && global
             .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.')
