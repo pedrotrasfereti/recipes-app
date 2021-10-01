@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -17,21 +17,29 @@ import { detailsAPI } from '../services/apiRequest';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 import newRecipe from '../helpers/newRecipe';
-import renderIngredients from '../helpers/renderIngredients';
+import RenderCheckbox from '../components/RenderCheckbox';
+
+// Styles
+import '../styles/Progress.css';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
+  const copyPath = path.replace('/in-progress', '');
   const id = path.split('/')[2];
   const foodDrinkPT = path.split('/')[1];
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const [loading, setLoading] = useState(false); // Carregando
   const [recipe, setRecipe] = useState(); // Detalhes
   const [isFavorite, setIsFavorite] = useState(false); // Favoritado
+  const [doneRecipe, setDoneRecipe] = useState(true); // Finalizar receita
+
+  const history = useHistory();
 
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  /* fetch recipe */
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
@@ -84,7 +92,7 @@ function Progress({ foodDrink }) {
           <h1 data-testid="recipe-title">{ recipe[`str${foodDrinkCap}`] }</h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } />
+          <ShareButton handleShowModal={ handleShowModal } url={ copyPath } />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
@@ -98,7 +106,14 @@ function Progress({ foodDrink }) {
 
           {/* Ingredientes */}
           <ol>
-            {renderIngredients(recipe, 'checkbox')}
+            <RenderCheckbox
+              data={ recipe }
+              checkbox
+              className="progress-done"
+              id={ id }
+              foodDrink={ foodDrink }
+              setDoneRecipe={ setDoneRecipe }
+            />
           </ol>
 
           {/* Instruções */}
@@ -108,7 +123,10 @@ function Progress({ foodDrink }) {
           {/* Iniciar receita */}
           <button
             type="button"
+            className="progress-done"
             data-testid="finish-recipe-btn"
+            disabled={ doneRecipe }
+            onClick={ () => history.push('/receitas-feitas') }
           >
             Finalizar Receita
           </button>

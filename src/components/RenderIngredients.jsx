@@ -1,8 +1,8 @@
 // React
 import React from 'react';
 
-const renderIngredients = (details = {}, checkbox = '') => {
-  const detailsArr = Object.entries(details);
+function RenderIngredients({ data }) {
+  const detailsArr = Object.entries(data);
 
   /* Pegar ingredientes */
   const ingrValues = detailsArr.filter((entry) => (
@@ -17,15 +17,6 @@ const renderIngredients = (details = {}, checkbox = '') => {
   /* Mergiar arrays */
   const combined = ingrValues.map((value, i) => [`${value} - ${measureValues[i]}`]);
 
-  /* Retornar lista de elementos */
-  if (checkbox) {
-    return combined.map((item, i) => (
-      <label data-testid={ `${i}-ingredient-step` } htmlFor={ i } key={ i }>
-        {item}
-        <input type="checkbox" id={ i } />
-      </label>
-    ));
-  }
   return combined.map((item, i) => (
     <li
       key={ item }
@@ -34,6 +25,6 @@ const renderIngredients = (details = {}, checkbox = '') => {
       { item }
     </li>
   ));
-};
+}
 
-export default renderIngredients;
+export default RenderIngredients;
