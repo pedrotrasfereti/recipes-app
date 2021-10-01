@@ -95,7 +95,8 @@ function Progress({ foodDrink }) {
 
     const doneRecipes = loadLocalStorage('doneRecipes') || [];
     console.log(doneRecipes);
-    const recipeID = doneRecipes.findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
+    const recipeID = doneRecipes
+      .findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
     const NOT_FOUND = -1;
 
     if (recipeID === NOT_FOUND) {
