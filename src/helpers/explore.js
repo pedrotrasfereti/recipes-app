@@ -1,4 +1,4 @@
-const explorePageTitle = ({ foodDrink = '', explore = '' }) => {
+export const explorePageTitle = ({ foodDrink = '', explore = '' }) => {
   const exploreStr = 'Explorar';
   const explorePT = explore === 'area' ? 'Origem' : 'Ingredientes';
   const foodDrinkPT = foodDrink === 'meals' ? 'Comidas' : 'Bebidas';
@@ -8,4 +8,6 @@ const explorePageTitle = ({ foodDrink = '', explore = '' }) => {
   return exploreStr;
 };
 
-export default explorePageTitle;
+export const shouldRenderIngrs = (browseByIngr, ingredients, loading) => (
+  !!((browseByIngr && ingredients.length && !loading))
+);

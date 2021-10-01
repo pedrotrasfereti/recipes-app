@@ -7,11 +7,11 @@ import { withRouter } from 'react-router';
 // PropTypes
 import PropTypes from 'prop-types';
 
-// Services
-import { randomRecipe } from '../services/apiRequest';
-
 // Helpers
 import capitalize from '../helpers/capitalizeStr';
+
+// Services
+import { randomRecipeAPI } from '../services/apiRequest';
 
 const ExploreNavFd = (props) => {
   // Props
@@ -21,11 +21,11 @@ const ExploreNavFd = (props) => {
   const foodDrinkPT = foodDrink === 'meals' ? 'comidas' : 'bebidas';
 
   // Receita aleatória
-  const [surpriseId, setSurpriseId] = useState([]);
+  const [surpriseId, setSurpriseId] = useState('');
 
   useEffect(() => {
     const fetchSurprise = async () => {
-      const random = await randomRecipe(foodDrink);
+      const random = await randomRecipeAPI(foodDrink);
       setSurpriseId(random[`id${foodDrinkCap}`]);
     };
     fetchSurprise();
