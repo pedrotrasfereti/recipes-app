@@ -18,10 +18,14 @@ import ExploreNav from '../components/ExploreNav';
 import ExploreNavFd from '../components/ExploreNavFd';
 
 // Helpers
-import { explorePageTitle, shouldRenderIngrs } from '../helpers/explore';
+import {
+  explorePageTitle,
+  shouldRenderIngrs,
+  shouldRenderAreas,
+} from '../helpers/explore';
 
 // Services
-import { ingredientsAPI } from '../services/apiRequest';
+import { ingredientsAPI, areasAPI, recipesByAreaAPI } from '../services/apiRequest';
 
 function Explore(props) {
   // Props
@@ -33,11 +37,14 @@ function Explore(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  // State
+  // State Hooks
   const [loading, setLoading] = useState(false); // Carregando
   const [ingredients, setIngredients] = useState([]); // Ingredientes
+  const [areas, setAreas] = useState([]); // Areas
+  const [recipes, setRecipes] = useState([]); // Receitas, por area
+  const [option, setOption] = useState('All'); // Area, valor do dropdown
+  console.log(option);
 
-  // Explorar Ingredientes
   useEffect(() => {
     if (browseByIngr) {
       const fetchIngredients = async () => {
@@ -46,12 +53,35 @@ function Explore(props) {
         setLoading(false);
       };
       fetchIngredients();
+    } else if (browseByArea) {
+      const fetchAreas = async () => {
+        setLoading(true);
+        setAreas(await areasAPI());
+        setLoading(false);
+      };
+      fetchAreas();
     }
-  }, [browseByIngr, foodDrink]);
+  }, [browseByIngr, browseByArea, foodDrink]);
+
+  useEffect(() => {
+    if (browseByArea) {
+      const fetchRecipesByArea = async () => {
+        setLoading(true);
+        setRecipes(await recipesByAreaAPI(option));
+        setLoading(false);
+      };
+      fetchRecipesByArea();
+    }
+  }, [browseByArea, option]);
 
   // Redirecionar para a tela de receitas e realizar busca por ingrediente
   const filterByIngredient = (name, filter, type) => {
     dispatch(fetchRecipes(name, filter, type));
+  };
+
+  // Mudar filtro de area
+  const handleChange = ({ target: { value } }) => {
+    setOption(value);
   };
 
   return (
@@ -74,8 +104,9 @@ function Explore(props) {
         />
       ) }
 
-      {/* Cards de ingredientes */}
       { loading && <span>Carregando...</span> }
+
+      {/* Cards de ingredientes */}
       { shouldRenderIngrs(browseByIngr, ingredients, loading) && (
         ingredients.map(({ name, thumb, type }, i) => (
           <Link
@@ -87,13 +118,53 @@ function Explore(props) {
               <img
                 src={ thumb }
                 alt={ name }
-                style={ { width: '50%' } }
+                style={ { width: '300px' } }
                 data-testid={ `${i}-card-img` }
               />
               <span data-testid={ `${i}-card-name` }>{ name }</span>
             </div>
           </Link>
         ))
+      ) }
+
+      {/* Dropdown areas */}
+      { shouldRenderAreas(browseByArea, loading) && (
+        <>
+          <select
+            data-testid="explore-by-area-dropdown"
+            onChange={ (evt) => handleChange(evt) }
+          >
+            {/* Mostra todas as receitas */}
+            <option data-testid="All-option" value="All">All</option>
+
+            {/* Receitas por país */}
+            { areas.map((area, i) => (
+              <option
+                key={ i }
+                data-testid={ `${area}-option` }
+                value={ area }
+              >
+                { area }
+              </option>
+            )) }
+          </select>
+
+          { recipes.map(({ idMeal, strMeal, strMealThumb }, i) => (
+            <div key={ i } data-testid={ `${i}-recipe-card` }>
+              <Link to={ `/comidas/${idMeal}` }>
+                <img
+                  src={ strMealThumb }
+                  alt={ strMeal }
+                  data-testid={ `${i}-card-img` }
+                  style={ { width: '300px' } }
+                />
+                <span data-testid={ `${i}-card-name` }>
+                  { strMeal }
+                </span>
+              </Link>
+            </div>
+          )) }
+        </>
       ) }
 
       <Footer />

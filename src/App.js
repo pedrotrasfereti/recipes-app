@@ -15,6 +15,7 @@ import {
   Explore,
   Done,
   Favorites,
+  NotFound,
 } from './pages';
 
 function App() {
@@ -99,6 +100,9 @@ function App() {
 
       {/* Favorites */}
       <Route exact path="/receitas-favoritas" component={ Favorites } />
+
+      {/* Not Found */}
+      <Route component={ NotFound } />
     </Switch>
   );
 }

@@ -28,3 +28,6 @@ export { default as Done } from './Done';
 
 /* /receitas-favoritas */
 export { default as Favorites } from './Favorites';
+
+/* Página não encontrada */
+export { default as NotFound } from './NotFound';

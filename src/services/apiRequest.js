@@ -72,3 +72,25 @@ export const ingredientsAPI = async (foodDrink) => {
   const MAX = 12;
   return array.slice(0, MAX);
 };
+
+export const areasAPI = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?a=list';
+  const result = await (await fetch(url)).json();
+  const array = result.meals.map(({ strArea }) => strArea);
+  return array;
+};
+
+export const recipesByAreaAPI = async (area) => {
+  let url = '';
+
+  if (area === 'All') {
+    url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  } else {
+    url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`;
+  }
+
+  const result = await (await fetch(url)).json();
+
+  const MAX = 12;
+  return result.meals.slice(0, MAX);
+};

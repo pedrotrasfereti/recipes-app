@@ -11,3 +11,7 @@ export const explorePageTitle = ({ foodDrink = '', explore = '' }) => {
 export const shouldRenderIngrs = (browseByIngr, ingredients, loading) => (
   !!((browseByIngr && ingredients.length && !loading))
 );
+
+export const shouldRenderAreas = (browseByArea, loading) => (
+  !!((browseByArea && !loading))
+);
