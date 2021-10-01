@@ -21,6 +21,9 @@ import RenderCheckbox from '../components/RenderCheckbox';
 
 // Styles
 import '../styles/Progress.css';
+import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelper';
+import getTags from '../helpers/getTags';
+import getDate from '../helpers/getDate';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
@@ -76,6 +79,22 @@ function Progress({ foodDrink }) {
     }
   };
 
+  const mangeAddDoneRecipe = (recipeFinished) => {
+    const newDoneRecipe = {
+      id: recipeFinished[`id${foodDrinkCap}`],
+      type: foodDrinkPT,
+      area: recipeFinished.strArea,
+      category: recipeFinished.strCategory,
+      alcoholicOrNot: recipeFinished.strAlcoholic || '',
+      name: recipeFinished[`str${foodDrinkCap}`],
+      image: recipeFinished[`str${foodDrinkCap}Thumb`],
+      doneDate: getDate(),
+      tags: getTags(recipeFinished),
+    };
+    const doneRecipes = loadLocalStorage('doneRecipes');
+    saveLocalStorage('doneRecipes', [...doneRecipes, newDoneRecipe]);
+  };
+
   return (
     <section>
       {loading && <span>Carregando...</span>}
@@ -126,7 +145,10 @@ function Progress({ foodDrink }) {
             className="progress-done"
             data-testid="finish-recipe-btn"
             disabled={ doneRecipe }
-            onClick={ () => history.push('/receitas-feitas') }
+            onClick={ () => {
+              mangeAddDoneRecipe(recipe);
+              history.push('/receitas-feitas');
+            } }
           >
             Finalizar Receita
           </button>

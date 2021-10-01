@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Bootstrap
-import { Button, Modal } from 'react-bootstrap';
+import { Button, ButtonGroup, ButtonToolbar, Modal } from 'react-bootstrap';
 
 // Children
 import copy from 'clipboard-copy';
@@ -30,6 +30,19 @@ function Done() {
     return filtering;
   }
 
+  function renderTags(tags) {
+    return (
+      <ButtonToolbar aria-label="Toolbar with button groups">
+        {
+          tags.map((tag, index) => (
+            <ButtonGroup key={ index } className="me-2" aria-label="First group">
+              <Button>1</Button>
+            </ButtonGroup>))
+        }
+      </ButtonToolbar>
+    );
+  }
+
   function renderDoneRecipes() {
     const filterCheck = filterBtns === 'all' ? doneRecipes : filterByType();
     return (filterCheck).map(({
@@ -40,6 +53,8 @@ function Done() {
       name,
       area,
       alcoholicOrNot,
+      doneDate,
+      tags,
     }, index) => (
       <div key={ index } data-testid={ type }>
         <Link to={ `${type}s/${id}` }>
@@ -79,6 +94,7 @@ function Done() {
             Link copiado!
           </Modal.Header>
         </Modal>
+        <p data-testid="${index}-horizontal-done-date">{ doneDate }</p>
       </div>
     ));
   }
