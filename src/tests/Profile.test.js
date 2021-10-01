@@ -40,5 +40,6 @@ describe('1. Testar o componente profile', () => {
     userEvent.click(logoutBtn);
 
     expect(mockHistory.location.pathname).toBe('/');
+    expect(localStorage.clear).toHaveBeenCalled();
   });
 });
