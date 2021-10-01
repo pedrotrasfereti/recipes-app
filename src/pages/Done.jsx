@@ -12,7 +12,7 @@ import Header from '../components/Header';
 // Services
 
 // Helpers
-// import { loadLocalStorage } from '../helpers/localStorageHelper';
+import { loadLocalStorage } from '../helpers/localStorageHelper';
 
 // Images
 import shareIcon from '../images/shareIcon.svg';
@@ -22,22 +22,23 @@ function Done() {
   const [showModal, setShowModal] = useState(false); // Mostrar mensagem
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-  // const [doneRecipes, setDoneRecipes] = useState(loadLocalStorage('doneRecipes'));
   const [filterBtns, setFilterBtns] = useState('all');
+
+  const doneRecipes = loadLocalStorage('doneRecipes');
 
   function filterByType() { // talvez vire uam funcao helper, pois está sendo usada em Favorites
     const filtering = doneRecipes.filter((recipe) => recipe.type === filterBtns);
     return filtering;
   }
 
-  function renderTags(tags) {
+  function renderTags(tags, recipeIndex) {
     return (
       <ButtonToolbar aria-label="Toolbar with button groups">
         {
-          tags.map((tag, index) => (
-            <ButtonGroup key={ index } className="me-2" aria-label="First group">
+          tags.map((tag) => (
+            <ButtonGroup key={ recipeIndex } className="me-2" aria-label="First group">
               <Button
-                data-testid={ `${index}-${tagName}-horizontal-tag` }
+                data-testid={ `${recipeIndex}-${tag}-horizontal-tag` }
               >
                 { tag }
               </Button>
@@ -99,7 +100,8 @@ function Done() {
           </Modal.Header>
         </Modal>
         <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
-        { renderTags(tags) }
+        { renderTags(tags, index) }
+        {/* RENDER TAGS USA O INDEX DE FILTERCHECK PARA PASSAR NO TESTE */}
       </div>
     ));
   }

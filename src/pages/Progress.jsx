@@ -83,8 +83,8 @@ function Progress({ foodDrink }) {
 
     const lastDoneRecipe = {
       id: recipeDone[`id${foodDrinkCap}`],
-      type: getType(FoodDrinkPT), // type =  comida ou bebida
-      sarea: recipeDone.strArea || EMPTY_FIELD,
+      type: getType(foodDrinkPT), // type =  comida ou bebida
+      area: recipeDone.strArea || EMPTY_FIELD,
       category: recipeDone.strCategory || EMPTY_FIELD,
       alcoholicOrNot: recipeDone.strAlcoholic || EMPTY_FIELD,
       name: recipeDone[`str${foodDrinkCap}`],
@@ -93,7 +93,7 @@ function Progress({ foodDrink }) {
       tags: getTags(recipeDone),
     };
 
-    const doneRecipes = loadLocalStorage('doneRecipes');
+    const doneRecipes = loadLocalStorage('doneRecipes') || [];
 
     const recipeID = doneRecipes
       .findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
