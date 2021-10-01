@@ -36,7 +36,11 @@ function Done() {
       <ButtonToolbar aria-label="Toolbar with button groups">
         {
           tags.map((tag) => (
-            <ButtonGroup key={ recipeIndex } className="me-2" aria-label="First group">
+            <ButtonGroup
+              key={ `${recipeIndex}-${tag}-BtnGroup` }
+              className="me-2"
+              aria-label="First group"
+            >
               <Button
                 data-testid={ `${recipeIndex}-${tag}-horizontal-tag` }
               >

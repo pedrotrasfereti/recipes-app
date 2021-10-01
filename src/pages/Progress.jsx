@@ -83,7 +83,7 @@ function Progress({ foodDrink }) {
 
     const lastDoneRecipe = {
       id: recipeDone[`id${foodDrinkCap}`],
-      type: getType(foodDrinkPT), // type =  comida ou bebida
+      type: getType(foodDrinkPT), // type === comida ou bebida
       area: recipeDone.strArea || EMPTY_FIELD,
       category: recipeDone.strCategory || EMPTY_FIELD,
       alcoholicOrNot: recipeDone.strAlcoholic || EMPTY_FIELD,
@@ -94,14 +94,16 @@ function Progress({ foodDrink }) {
     };
 
     const doneRecipes = loadLocalStorage('doneRecipes') || [];
-
-    const recipeID = doneRecipes
-      .findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
-
+    console.log(doneRecipes);
+    const recipeID = doneRecipes.findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
     const NOT_FOUND = -1;
 
     if (recipeID === NOT_FOUND) {
-      saveLocalStorage('doneRecipes', [...doneRecipes, lastDoneRecipe]);
+      const addLastDoneRecipe = [...doneRecipes, lastDoneRecipe];
+      saveLocalStorage('doneRecipes', addLastDoneRecipe);
+    } else {
+      doneRecipes[recipeID].doneDate = getDate(); // atualiza a receita feita com a última data que ela foi realizada
+      saveLocalStorage('doneRecipes', doneRecipes);
     }
   };
 
