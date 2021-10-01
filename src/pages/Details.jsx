@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -29,7 +29,7 @@ function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
 
   const path = useLocation().pathname; // Rota
-  const id = path.split('/')[2]; // Id da receita
+  const { id } = useParams(); // Id da receita
   const foodDrinkPT = path.split('/')[1]; // Comida ou Bebida
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
 
@@ -110,7 +110,11 @@ function Details({ foodDrink = '' }) {
           </h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } url={ path } />
+          <ShareButton
+            handleShowModal={ handleShowModal }
+            foodDrink={ foodDrinkPT }
+            id={ id }
+          />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
