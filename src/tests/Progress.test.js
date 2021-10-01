@@ -1,35 +1,64 @@
 // React
-// import React from 'react';
-// import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { screen } from '@testing-library/react';
 
 // Children
-// import App from '../App';
+import userEvent from '@testing-library/user-event';
+import App from '../App';
 
 // Helpers
-// import renderWithReduxAndRouter from '../helpers/renderWithReduxAndRouter';
-// import { Progress } from '../pages';
+import renderWithReduxAndRouter from '../helpers/renderWithReduxAndRouter';
 
-// Variables
-// const RECIPE_PHOTO = 'recipe-photo';
-// const RECIPE_TITLE = 'recipe-title';
-// const SHARE_BTN = 'share-btn';
-// const FAVORITE_BTN = 'favorite-btn';
-// const RECIPE_CATEGORY = 'recipe-category';
-// const INGR_ITEM = '0-ingredient-name-and-measure';
-// const INSTRUCTIONS = 'instructions';
-// const VIDEO = 'video';
-// const REC_ITEM = '0-recomendation-card';
-// const START_RECIPE_BTN = 'start-recipe-btn';
+// Variables;
+const RECIPE_PHOTO = 'recipe-photo';
+const RECIPE_TITLE = 'recipe-title';
+const SHARE_BTN = 'share-btn';
+const FAVORITE_BTN = 'favorite-btn';
+const RECIPE_CATEGORY = 'recipe-category';
+const CHECKBOX_ITEM = '0-ingredient-step';
+const INSTRUCTIONS = 'instructions';
+const FINISH_RECIPE_BTN = 'finish-recipe-btn';
 
-// describe('Testa a página de login', () => {
-//   beforeEach(() => {
-//     renderWithReduxAndRouter(<Progress />, { initialState: {}, initialEntries: ['/comidas/52977/in-progress'] });
-//   });
+describe('Testa a página de login', () => {
+  beforeEach(() => {
+    renderWithReduxAndRouter(<App />,
+      { initialState: {}, initialEntries: ['/comidas/52977/in-progress'] });
+  });
 
-//   it('Contem', () => {
-//     const img = screen.getByTestId('recipe-photo');
+  it('Contem os elementos da tela', async () => {
+    const img = await screen.findByTestId(RECIPE_PHOTO);
+    const tittle = await screen.findByTestId(RECIPE_TITLE);
+    const shareBtn = await screen.findByTestId(SHARE_BTN);
+    const favoriteBtn = await screen.findByTestId(FAVORITE_BTN);
+    const recipeCategory = await screen.findByTestId(RECIPE_CATEGORY);
+    const checkboxItem = await screen.findByTestId(CHECKBOX_ITEM);
+    const instructions = await screen.findByTestId(INSTRUCTIONS);
+    const finishBtn = await screen.findByTestId(FINISH_RECIPE_BTN);
 
-//     expect(img).toBeInTheDocument();
-//   });
-// });
+    expect(img).toBeInTheDocument();
+    expect(tittle).toBeInTheDocument();
+    expect(shareBtn).toBeInTheDocument();
+    expect(favoriteBtn).toBeInTheDocument();
+    expect(recipeCategory).toBeInTheDocument();
+    expect(checkboxItem).toBeInTheDocument();
+    expect(instructions).toBeInTheDocument();
+    expect(finishBtn).toBeInTheDocument();
+  });
+
+  it('testa botão de favorito', async () => {
+    const favoriteBtn = await screen.findByTestId(FAVORITE_BTN);
+    const fullHeart = 'http://localhost/blackHeartIcon.svg';
+    userEvent.click(favoriteBtn);
+
+    expect(favoriteBtn).toBeInTheDocument();
+    expect(fullHeart).toEqual(favoriteBtn.src);
+  });
+  it('testa checkbox', async () => {
+    const checkboxItem = await screen.findByRole('checkbox', {
+      name: /Lentils/i,
+    });
+    userEvent.click(checkboxItem);
+
+    expect(checkboxItem.checked).toBeTruthy();
+  });
+});

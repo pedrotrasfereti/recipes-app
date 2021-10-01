@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -24,8 +24,8 @@ import '../styles/Progress.css';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
+  const { id } = useParams();
   const copyPath = path.replace('/in-progress', '');
-  const id = path.split('/')[2];
   const foodDrinkPT = path.split('/')[1];
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const [loading, setLoading] = useState(false); // Carregando
