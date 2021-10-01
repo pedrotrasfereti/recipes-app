@@ -1,5 +1,6 @@
+const EMPTY_KEY = [];
 export function loadLocalStorage(key) {
-  const getLocalStorage = JSON.parse(localStorage.getItem(key)); // Recebe a key do LocalStorage
+  const getLocalStorage = JSON.parse(localStorage.getItem(key)) || EMPTY_KEY; // Recebe a key do LocalStorage
   return getLocalStorage;
 }
 

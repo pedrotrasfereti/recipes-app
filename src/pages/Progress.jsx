@@ -21,6 +21,8 @@ import RenderCheckbox from '../components/RenderCheckbox';
 
 // Styles
 import '../styles/Progress.css';
+import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelper';
+import { getDate, getTags, getType } from '../helpers/getRecipeHelpers';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
@@ -76,6 +78,36 @@ function Progress({ foodDrink }) {
     }
   };
 
+  const manageAddDoneRecipe = (recipeDone) => {
+    const EMPTY_FIELD = '';
+
+    const lastDoneRecipe = {
+      id: recipeDone[`id${foodDrinkCap}`],
+      type: getType(foodDrinkPT), // type === comida ou bebida
+      area: recipeDone.strArea || EMPTY_FIELD,
+      category: recipeDone.strCategory || EMPTY_FIELD,
+      alcoholicOrNot: recipeDone.strAlcoholic || EMPTY_FIELD,
+      name: recipeDone[`str${foodDrinkCap}`],
+      image: recipeDone[`str${foodDrinkCap}Thumb`],
+      doneDate: getDate(),
+      tags: getTags(recipeDone),
+    };
+
+    const doneRecipes = loadLocalStorage('doneRecipes') || [];
+    console.log(doneRecipes);
+    const recipeID = doneRecipes
+      .findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
+    const NOT_FOUND = -1;
+
+    if (recipeID === NOT_FOUND) {
+      const addLastDoneRecipe = [...doneRecipes, lastDoneRecipe];
+      saveLocalStorage('doneRecipes', addLastDoneRecipe);
+    } else {
+      doneRecipes[recipeID].doneDate = getDate(); // atualiza a receita feita com a última data que ela foi realizada
+      saveLocalStorage('doneRecipes', doneRecipes);
+    }
+  };
+
   return (
     <section>
       {loading && <span>Carregando...</span>}
@@ -126,7 +158,10 @@ function Progress({ foodDrink }) {
             className="progress-done"
             data-testid="finish-recipe-btn"
             disabled={ doneRecipe }
-            onClick={ () => history.push('/receitas-feitas') }
+            onClick={ () => {
+              manageAddDoneRecipe(recipe);
+              history.push('/receitas-feitas');
+            } }
           >
             Finalizar Receita
           </button>
@@ -144,5 +179,4 @@ function Progress({ foodDrink }) {
 Progress.propTypes = {
   foodDrink: PropTypes.string,
 }.isRequired;
-
 export default Progress;
