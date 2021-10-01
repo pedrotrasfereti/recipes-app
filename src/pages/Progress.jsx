@@ -78,7 +78,7 @@ function Progress({ foodDrink }) {
     }
   };
 
-  const mangeAddDoneRecipe = (recipeDone) => {
+  const manageAddDoneRecipe = (recipeDone) => {
     const EMPTY_FIELD = '';
 
     const lastDoneRecipe = {
@@ -159,7 +159,7 @@ function Progress({ foodDrink }) {
             data-testid="finish-recipe-btn"
             disabled={ doneRecipe }
             onClick={ () => {
-              mangeAddDoneRecipe(recipe);
+              manageAddDoneRecipe(recipe);
               history.push('/receitas-feitas');
             } }
           >
