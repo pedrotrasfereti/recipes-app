@@ -36,7 +36,7 @@ function Done() {
         {
           tags.map((tag, index) => (
             <ButtonGroup key={ index } className="me-2" aria-label="First group">
-              <Button>1</Button>
+              <Button data-testid={ `${index}-${tagName}-horizontal-tag` }>{ tag }</Button>
             </ButtonGroup>))
         }
       </ButtonToolbar>
@@ -94,7 +94,8 @@ function Done() {
             Link copiado!
           </Modal.Header>
         </Modal>
-        <p data-testid="${index}-horizontal-done-date">{ doneDate }</p>
+        <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
+        { renderTags(tags) }
       </div>
     ));
   }

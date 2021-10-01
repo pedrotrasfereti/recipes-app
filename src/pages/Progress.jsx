@@ -80,12 +80,14 @@ function Progress({ foodDrink }) {
   };
 
   const mangeAddDoneRecipe = (recipeFinished) => {
+    const EMPTY_FIELD = '';
+
     const newDoneRecipe = {
       id: recipeFinished[`id${foodDrinkCap}`],
-      type: foodDrinkPT,
-      area: recipeFinished.strArea,
-      category: recipeFinished.strCategory,
-      alcoholicOrNot: recipeFinished.strAlcoholic || '',
+      type: getType(FoodDrinkPT), // type =  comida ou bebida
+      area: recipeFinished.strArea || EMPTY_FIELD,
+      category: recipeFinished.strCategory || EMPTY_FIELD,
+      alcoholicOrNot: recipeFinished.strAlcoholic || EMPTY_FIELD,
       name: recipeFinished[`str${foodDrinkCap}`],
       image: recipeFinished[`str${foodDrinkCap}Thumb`],
       doneDate: getDate(),
@@ -162,9 +164,5 @@ function Progress({ foodDrink }) {
     </section>
   );
 }
-
-Progress.propTypes = {
-  foodDrink: PropTypes.string,
-}.isRequired;
 
 export default Progress;
