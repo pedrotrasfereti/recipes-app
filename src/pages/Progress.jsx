@@ -22,8 +22,7 @@ import RenderCheckbox from '../components/RenderCheckbox';
 // Styles
 import '../styles/Progress.css';
 import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelper';
-import getTags from '../helpers/getTags';
-import getDate from '../helpers/getDate';
+import { getDate, getTags, getType } from '../helpers/getRecipeHelpers';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname;
@@ -79,22 +78,31 @@ function Progress({ foodDrink }) {
     }
   };
 
-  const mangeAddDoneRecipe = (recipeFinished) => {
+  const mangeAddDoneRecipe = (recipeDone) => {
     const EMPTY_FIELD = '';
 
-    const newDoneRecipe = {
-      id: recipeFinished[`id${foodDrinkCap}`],
+    const lastDoneRecipe = {
+      id: recipeDone[`id${foodDrinkCap}`],
       type: getType(FoodDrinkPT), // type =  comida ou bebida
-      area: recipeFinished.strArea || EMPTY_FIELD,
-      category: recipeFinished.strCategory || EMPTY_FIELD,
-      alcoholicOrNot: recipeFinished.strAlcoholic || EMPTY_FIELD,
-      name: recipeFinished[`str${foodDrinkCap}`],
-      image: recipeFinished[`str${foodDrinkCap}Thumb`],
+      sarea: recipeDone.strArea || EMPTY_FIELD,
+      category: recipeDone.strCategory || EMPTY_FIELD,
+      alcoholicOrNot: recipeDone.strAlcoholic || EMPTY_FIELD,
+      name: recipeDone[`str${foodDrinkCap}`],
+      image: recipeDone[`str${foodDrinkCap}Thumb`],
       doneDate: getDate(),
-      tags: getTags(recipeFinished),
+      tags: getTags(recipeDone),
     };
+
     const doneRecipes = loadLocalStorage('doneRecipes');
-    saveLocalStorage('doneRecipes', [...doneRecipes, newDoneRecipe]);
+
+    const recipeID = doneRecipes
+      .findIndex((localStorageRecipe) => localStorageRecipe.id === lastDoneRecipe.id);
+
+    const NOT_FOUND = -1;
+
+    if (recipeID === NOT_FOUND) {
+      saveLocalStorage('doneRecipes', [...doneRecipes, lastDoneRecipe]);
+    }
   };
 
   return (
@@ -165,4 +173,7 @@ function Progress({ foodDrink }) {
   );
 }
 
+Progress.propTypes = {
+  foodDrink: PropTypes.string,
+}.isRequired;
 export default Progress;
