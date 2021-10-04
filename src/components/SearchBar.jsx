@@ -1,11 +1,11 @@
 // React
 import React, { useEffect, useState } from 'react';
 
-// React-Redux
-import { useDispatch, useSelector } from 'react-redux';
+// Router
 import { useLocation } from 'react-router';
 
-// Action async
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../redux/actions';
 
 function SearchBar() {
@@ -31,6 +31,7 @@ function SearchBar() {
       dispatch(fetchRecipes(searchText, searchFilter, path));
     }
   };
+
   return (
     <form className="search-bar">
       <input

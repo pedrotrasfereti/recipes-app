@@ -1,6 +1,5 @@
 // React
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -9,6 +8,10 @@ import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRecipes } from '../redux/actions';
+
 // Helpers
 import capitalize from '../helpers/capitalizeStr';
 
@@ -16,27 +19,30 @@ import capitalize from '../helpers/capitalizeStr';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-// Action async
-import { fetchRecipes } from '../redux/actions';
+// Services
 import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
 
-const INITIAL_CATEGORY_FILTER = 'ALL';
 function Recipes({ foodDrink }) {
-  const { loading, results } = useSelector((state) => state.recipes);
-  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
+  // Variables
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
 
-  const path = useLocation().pathname;
-  const history = useHistory();
+  // Redux
+  const { loading, results } = useSelector((state) => state.recipes);
+  const recipes = results[foodDrink] || []; // se results estiver em fetching retorna []
 
-  const [categories, setCategories] = useState(['ALL']);
-  const [categoryFilter, setCategoryFilter] = useState(INITIAL_CATEGORY_FILTER);
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
-  // const [loadingFetch, setLoadingFetch] = useState(false);
-
+  // Hooks
   const dispatch = useDispatch();
+  const history = useHistory();
+  const path = useLocation().pathname;
+  const ingredient = useLocation().state;
   const treatedPath = path.slice(1);
 
+  // State Hooks
+  const [categories, setCategories] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+
+  /* Faz fetch das categorias */
   useEffect(() => {
     const MAX_CATEGORIES = 5;
     const fetchCategories = async () => {
@@ -46,28 +52,32 @@ function Recipes({ foodDrink }) {
     fetchCategories();
   }, [foodDrink]);
 
+  /* Filtra as receitas baseado na categoria selecionada */
   useEffect(() => {
     async function categoryFilterRecipes() {
-      if (categoryFilter !== 'ALL') {
-        // setLoadingFetch(true);
+      if (categoryFilter !== 'All') {
         const categoryItens = await filterCategoryAPI(foodDrink, categoryFilter);
         setFilteredRecipes(await categoryItens);
-        // setLoadingFetch(false);
       }
     }
     categoryFilterRecipes();
   }, [categoryFilter, foodDrink]);
 
+  /* Busca as receitas por filtro */
   useEffect(() => {
     const foodOrDrinkLoad = () => {
-      setCategoryFilter(INITIAL_CATEGORY_FILTER);
-      dispatch(fetchRecipes('', '', `${treatedPath}`));
+      if (ingredient) {
+        dispatch(fetchRecipes(ingredient, 'ingredient', treatedPath));
+      } else {
+        setCategoryFilter('All');
+        dispatch(fetchRecipes('', '', treatedPath));
+      }
     };
     foodOrDrinkLoad();
-  }, [path, treatedPath, dispatch]);
+  }, [path, treatedPath, dispatch, ingredient]);
 
   function renderRecipes() {
-    if (categoryFilter === 'ALL') return recipes;
+    if (categoryFilter === 'All') return recipes;
     return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);
   }
 
@@ -81,15 +91,16 @@ function Recipes({ foodDrink }) {
         } }
         type="button"
         data-testid="All-category-filter"
-        value="ALL"
+        value="All"
       >
         All
       </button>
+
       {categories.map(({ strCategory }, index) => (
         <button
           key={ `${strCategory} - ${index}` }
           onClick={ ({ target: { value } }) => {
-            setCategoryFilter(categoryFilter !== value ? value : INITIAL_CATEGORY_FILTER);
+            setCategoryFilter(categoryFilter !== value ? value : 'All');
           } }
           type="button"
           data-testid={ `${strCategory}-category-filter` }
@@ -99,12 +110,8 @@ function Recipes({ foodDrink }) {
         </button>))}
 
       <main>
-        {
-          (!loading && !recipes) && <p>Digite algum termo de pesquisa</p>
-        }
-        {
-          loading && <h1>Carregando...</h1>
-        }
+        { (!loading && !recipes) && <p>Digite algum termo de pesquisa</p> }
+        { loading && <h1>Carregando...</h1> }
         {
           recipes === null && global
             .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.')
