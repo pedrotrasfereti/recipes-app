@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -13,21 +13,23 @@ import { detailsAPI } from '../services/apiRequest';
 
 // HelpersDetails
 import capitalize from '../helpers/capitalizeStr';
-import renderIngredients from '../helpers/renderIngredients';
 import renderRecs from '../helpers/renderRecs';
 import newRecipe from '../helpers/newRecipe';
+import checkFavorite from '../helpers/checkFavorite';
 
 // Styles
 import '../styles/Details.css';
-import checkFavorite from '../helpers/checkFavorite';
+
+// Components
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
+import RenderIngredients from '../components/RenderIngredients';
 
 function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
 
   const path = useLocation().pathname; // Rota
-  const id = path.split('/')[2]; // Id da receita
+  const { id } = useParams(); // Id da receita
   const foodDrinkPT = path.split('/')[1]; // Comida ou Bebida
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
 
@@ -108,7 +110,11 @@ function Details({ foodDrink = '' }) {
           </h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } />
+          <ShareButton
+            handleShowModal={ handleShowModal }
+            foodDrink={ foodDrinkPT }
+            id={ id }
+          />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
@@ -126,7 +132,7 @@ function Details({ foodDrink = '' }) {
 
           {/* Ingredientes */}
           <ol>
-            { renderIngredients(details) }
+            <RenderIngredients data={ details } />
           </ol>
 
           {/* Instruções */}

@@ -1,11 +1,11 @@
 // React
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Router
 import { useLocation } from 'react-router';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../redux/actions';
 
 function SearchBar() {
@@ -15,6 +15,14 @@ function SearchBar() {
   const path = useLocation().pathname.split('/')[1];
 
   const dispatch = useDispatch();
+  const meals = useSelector((state) => state.recipes.results.meals);
+  console.log(meals);
+
+  useEffect(() => {
+    if (!meals) {
+      global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+    }
+  }, [meals]);
 
   const handleSubmit = () => {
     if (searchFilter === 'first-letter' && searchText.length > 1) {
