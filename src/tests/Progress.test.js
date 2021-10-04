@@ -4,6 +4,7 @@ import { screen } from '@testing-library/react';
 
 // Children
 import userEvent from '@testing-library/user-event';
+import copy from 'clipboard-copy';
 import App from '../App';
 
 // Helpers
@@ -18,6 +19,9 @@ const RECIPE_CATEGORY = 'recipe-category';
 const CHECKBOX_ITEM = '0-ingredient-step';
 const INSTRUCTIONS = 'instructions';
 const FINISH_RECIPE_BTN = 'finish-recipe-btn';
+
+// Mock copy library
+jest.mock('clipboard-copy');
 
 describe('Testa a página de login', () => {
   beforeEach(() => {
@@ -45,14 +49,6 @@ describe('Testa a página de login', () => {
     expect(finishBtn).toBeInTheDocument();
   });
 
-  it('testa botão de favorito', async () => {
-    const favoriteBtn = await screen.findByTestId(FAVORITE_BTN);
-    const fullHeart = 'http://localhost/blackHeartIcon.svg';
-    userEvent.click(favoriteBtn);
-
-    expect(favoriteBtn).toBeInTheDocument();
-    expect(fullHeart).toEqual(favoriteBtn.src);
-  });
   it('testa checkbox', async () => {
     const checkboxItem = await screen.findByRole('checkbox', {
       name: /Lentils/i,
@@ -61,4 +57,33 @@ describe('Testa a página de login', () => {
 
     expect(checkboxItem.checked).toBeTruthy();
   });
+
+  it('testa botão de favorito', async () => {
+    const favoriteBtn = await screen.findByTestId(FAVORITE_BTN);
+    const fullHeart = 'http://localhost/blackHeartIcon.svg';
+    userEvent.click(favoriteBtn);
+
+    expect(favoriteBtn).toBeInTheDocument();
+    expect(fullHeart).toEqual(favoriteBtn.src);
+  });
+
+  it('testa botão de compartilhar', async () => {
+    const shareBtn = await screen.findByTestId(SHARE_BTN);
+
+    userEvent.click(shareBtn);
+
+    const shareMsg = await screen.findByText(/Link copiado!/i);
+
+    expect(copy).toHaveBeenCalledWith('http://localhost:3000/comidas/52977');
+    expect(shareMsg).toBeInTheDocument();
+  });
+
+  // it('testa as checkboxs e o botao de finalizar receita', async () => {
+  //   const checkboxes = await screen.findAllByTestId(/ingredient-step/i);
+  //   checkboxes.forEach((checkbox) => {
+  //     userEvent.click(checkbox);
+  //   });
+  //   const finishBtn = await screen.findByTestId(FINISH_RECIPE_BTN);
+  //   expect(finishBtn.disabled).toBeFalsy();
+  // });
 });
