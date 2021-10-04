@@ -1,6 +1,5 @@
 // React
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -9,6 +8,10 @@ import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRecipes } from '../redux/actions';
+
 // Helpers
 import capitalize from '../helpers/capitalizeStr';
 
@@ -16,8 +19,7 @@ import capitalize from '../helpers/capitalizeStr';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-// Action async
-import { fetchRecipes } from '../redux/actions';
+// Services
 import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
 
 function Recipes({ foodDrink }) {
@@ -32,6 +34,7 @@ function Recipes({ foodDrink }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const path = useLocation().pathname;
+  const ingredient = useLocation().state;
   const treatedPath = path.slice(1);
 
   // State Hooks
@@ -60,16 +63,19 @@ function Recipes({ foodDrink }) {
     categoryFilterRecipes();
   }, [categoryFilter, foodDrink]);
 
-  /* !! Pode ser refatorado */
+  /* Busca as receitas por filtro */
   useEffect(() => {
     const foodOrDrinkLoad = () => {
-      setCategoryFilter('All');
-      dispatch(fetchRecipes('', '', `${treatedPath}`));
+      if (ingredient) {
+        dispatch(fetchRecipes(ingredient, 'ingredient', treatedPath));
+      } else {
+        setCategoryFilter('All');
+        dispatch(fetchRecipes('', '', treatedPath));
+      }
     };
     foodOrDrinkLoad();
-  }, [path, treatedPath, dispatch]);
+  }, [path, treatedPath, dispatch, ingredient]);
 
-  /* !! Pode ser refatorado */
   function renderRecipes() {
     if (categoryFilter === 'All') return recipes;
     return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);

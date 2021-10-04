@@ -7,10 +7,6 @@ import { Link, useHistory } from 'react-router-dom';
 // PropTypes
 import PropTypes from 'prop-types';
 
-// Redux
-import { useDispatch } from 'react-redux';
-import { fetchRecipes } from '../redux/actions';
-
 // Children
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -35,7 +31,6 @@ function Explore(props) {
 
   // Hooks
   const history = useHistory();
-  const dispatch = useDispatch();
 
   // State Hooks
   const [loading, setLoading] = useState(false); // Carregando
@@ -43,7 +38,6 @@ function Explore(props) {
   const [areas, setAreas] = useState([]); // Areas
   const [recipes, setRecipes] = useState([]); // Receitas, por area
   const [option, setOption] = useState('All'); // Area, valor do dropdown
-  console.log(option);
 
   useEffect(() => {
     if (browseByIngr) {
@@ -73,11 +67,6 @@ function Explore(props) {
       fetchRecipesByArea();
     }
   }, [browseByArea, option]);
-
-  // Redirecionar para a tela de receitas e realizar busca por ingrediente
-  const filterByIngredient = (name, filter, type) => {
-    dispatch(fetchRecipes(name, filter, type));
-  };
 
   // Mudar filtro de area
   const handleChange = ({ target: { value } }) => {
@@ -110,9 +99,11 @@ function Explore(props) {
       { shouldRenderIngrs(browseByIngr, ingredients, loading) && (
         ingredients.map(({ name, thumb, type }, i) => (
           <Link
-            to={ `/${type}` }
-            onClick={ () => filterByIngredient(name, 'ingredient', type) }
             key={ i }
+            to={ {
+              pathname: `/${type}`,
+              state: name,
+            } }
           >
             <div data-testid={ `${i}-ingredient-card` }>
               <img
