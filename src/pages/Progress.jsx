@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Router
-import { useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 
 // PropTypes
 import PropTypes from 'prop-types';
@@ -25,11 +25,10 @@ import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelpe
 import { getDate, getTags, getType } from '../helpers/getRecipeHelpers';
 
 function Progress({ foodDrink }) {
-  const path = useLocation().pathname;
-  const copyPath = path.replace('/in-progress', '');
-  const id = path.split('/')[2];
-  const foodDrinkPT = path.split('/')[1];
-  const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
+  const path = useLocation().pathname; // Caminho atual
+  const { id } = useParams(); // Id da receita
+  const foodDrinkPT = path.split('/')[1]; // comida ou bebida
+  const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1); // Meal ou Drink
   const [loading, setLoading] = useState(false); // Carregando
   const [recipe, setRecipe] = useState(); // Detalhes
   const [isFavorite, setIsFavorite] = useState(false); // Favoritado
@@ -124,7 +123,11 @@ function Progress({ foodDrink }) {
           <h1 data-testid="recipe-title">{ recipe[`str${foodDrinkCap}`] }</h1>
 
           {/* Compartilhar */}
-          <ShareButton handleShowModal={ handleShowModal } url={ copyPath } />
+          <ShareButton
+            handleShowModal={ handleShowModal }
+            foodDrink={ foodDrinkPT }
+            id={ id }
+          />
 
           {/* Favoritar */}
           <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />

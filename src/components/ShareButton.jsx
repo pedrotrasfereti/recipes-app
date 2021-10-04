@@ -10,14 +10,14 @@ import copy from 'clipboard-copy';
 // Images
 import shareIcon from '../images/shareIcon.svg';
 
-function ShareButton({ handleShowModal, url }) {
+function ShareButton({ handleShowModal, foodDrink, id }) {
   return (
     <button
       type="button"
       className="details-share-btn"
       data-testid="share-btn"
       onClick={ () => {
-        copy(`http://localhost:3000${url}`);
+        copy(`http://localhost:3000/${foodDrink}/${id}`);
         handleShowModal();
       } }
     >
