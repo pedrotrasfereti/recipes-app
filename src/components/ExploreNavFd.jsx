@@ -20,7 +20,7 @@ const ExploreNavFd = (props) => {
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
   const foodDrinkPT = foodDrink === 'meals' ? 'comidas' : 'bebidas';
 
-  // Receita aleatória
+  // State Hooks
   const [surpriseId, setSurpriseId] = useState('');
 
   useEffect(() => {
