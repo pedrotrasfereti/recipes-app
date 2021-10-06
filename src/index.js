@@ -10,6 +10,9 @@ import store from './redux/store';
 // Children
 import App from './App';
 
+// Styles
+import './styles/index.css';
+
 ReactDOM.render(
   <Router>
     <Provider store={ store }>

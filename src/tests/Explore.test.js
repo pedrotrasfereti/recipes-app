@@ -11,20 +11,12 @@ import renderWithReduxAndRouter from '../helpers/renderWithReduxAndRouter';
 // Mocks
 let mockHistory = {};
 
-// global.fetch = jest.fn(() => Promise.resolve({
-//   json: () => Promise.resolve('52772'),
-// }));
-
 // Test Variables
 const EXPLORE_FOOD_BTN = 'explore-food';
 const EXPLORE_DRINKS_BTN = 'explore-drinks';
 const EXPLORE_BY_AREA_BTN = 'explore-by-area';
 const EXPLORE_BY_INGR_BTN = 'explore-by-ingredient';
 const EXPLORE_SURPRISE_BTN = 'explore-surprise';
-
-// beforeEach(() => {
-//   fetch.mockClear();
-// });
 
 /* ====================== EXPLORAR ====================== */
 describe('testa tela principal de explorar', () => {
@@ -149,21 +141,4 @@ describe('testa tela de explorar comidas ou bebidas', () => {
 
     expect(mockHistory.location.pathname).toEqual('/explorar/bebidas/ingredientes');
   });
-
-  // it('5. testa o botão de explorar surpresa', () => {
-  //   const { history } = renderWithReduxAndRouter(<Explore foodDrink="meals" />);
-  //   // mockHistory = history;
-
-  //   const exploreByIngrBtn = screen.getByTestId(EXPLORE_BY_INGR_BTN);
-
-  //   userEvent.click(exploreByIngrBtn);
-
-  //   // expect(mockHistory.location.pathname).toEqual('/explorar/bebidas/ingredientes');
-  // });
 });
-
-/* ================ EXPLORAR INGREDIENTES ================ */
-// describe('', () => {});
-
-/* =================== EXPLORAR ORIGEM =================== */
-// describe('', () => {});

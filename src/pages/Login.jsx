@@ -2,6 +2,20 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
+// Styles
+import {
+  Wrapper,
+  Logo,
+  Title,
+  LoginForm,
+  Label,
+  Input,
+  Button,
+} from '../styles/Styled';
+
+// Images
+import logo from '../images/logo.png';
+
 function Login() {
   /* Retorna um booleano com o estado disabled do botão */
   const disableSubmit = (email, password) => {
@@ -31,34 +45,44 @@ function Login() {
     redirect ? (
       <Redirect to="/comidas" />
     ) : (
-      <form>
-        {/* Input Email */}
-        <input
-          id="email-input"
-          type="email"
-          data-testid="email-input"
-          onChange={ ({ target: { value } }) => setEmail(value) }
-          placeholder="Email"
-        />
-        {/* Input Senha */}
-        <input
-          id="password-input"
-          type="password"
-          data-testid="password-input"
-          onChange={ ({ target: { value } }) => setPassword(value) }
-          placeholder="Senha"
-        />
-        {/* Botão submit */}
-        <button
-          id="login-submit-btn"
-          data-testid="login-submit-btn"
-          type="button"
-          disabled={ disableSubmit(email, password) }
-          onClick={ () => handleSubmit() }
-        >
-          Login
-        </button>
-      </form>
+      <Wrapper>
+        <Logo src={ logo } alt="logo" style={ { height: '11.5em' } } />
+        <Title>Let&apos;s Cook</Title>
+        <LoginForm>
+          {/* Input Email */}
+          <Label htmlFor="email-input">
+            <span>Email:</span>
+            <Input
+              id="email-input"
+              type="email"
+              data-testid="email-input"
+              onChange={ ({ target: { value } }) => setEmail(value) }
+              placeholder="Email"
+            />
+          </Label>
+          {/* Input Senha */}
+          <Label htmlFor="password-input">
+            <span>Senha:</span>
+            <Input
+              id="password-input"
+              type="password"
+              data-testid="password-input"
+              onChange={ ({ target: { value } }) => setPassword(value) }
+              placeholder="Senha"
+            />
+          </Label>
+          {/* Botão submit */}
+          <Button
+            id="login-submit-btn"
+            data-testid="login-submit-btn"
+            type="button"
+            disabled={ disableSubmit(email, password) }
+            onClick={ () => handleSubmit() }
+          >
+            Login
+          </Button>
+        </LoginForm>
+      </Wrapper>
     )
   );
 }
