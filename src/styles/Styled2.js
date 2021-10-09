@@ -38,7 +38,7 @@ export const List = styled.div`
   height: 3.5rem;
   gap: .25rem;
   margin-bottom: 1rem;
-  overflowx-y: hidden;
+  overflow-y: hidden;
 `;
 
 /* ============= CARD ============= */
