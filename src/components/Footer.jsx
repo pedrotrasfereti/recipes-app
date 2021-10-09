@@ -4,47 +4,39 @@ import React from 'react';
 // Router
 import { useHistory } from 'react-router-dom';
 
-// Icons
-import drinkIcon from '../images/drinkIcon.svg';
-import exploreIcon from '../images/exploreIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
+// Styles
+import {
+  IconBtn,
+} from '../styles/Styled';
+
+import {
+  FooterSc,
+} from '../styles/Styled2';
 
 function Footer() {
   const history = useHistory();
 
   return (
-    <footer>
-      <button
+    <FooterSc>
+      <IconBtn
         type="button"
         onClick={ () => history.push('/bebidas') }
       >
-        <img
-          src={ drinkIcon }
-          alt="Drink icon button"
-          data-testid="drinks-bottom-btn"
-        />
-      </button>
-      <button
+        <i className="uil uil-glass-martini-alt icon" />
+      </IconBtn>
+      <IconBtn
         type="button"
         onClick={ () => history.push('/explorar') }
       >
-        <img
-          src={ exploreIcon }
-          alt="Explore icon button"
-          data-testid="explore-bottom-btn"
-        />
-      </button>
-      <button
+        <i className="uil uil-compass icon" />
+      </IconBtn>
+      <IconBtn
         type="button"
         onClick={ () => history.push('/comidas') }
       >
-        <img
-          src={ mealIcon }
-          alt="Food icon button"
-          data-testid="food-bottom-btn"
-        />
-      </button>
-    </footer>
+        <i className="uil uil-pizza-slice icon" />
+      </IconBtn>
+    </FooterSc>
 
   );
 }

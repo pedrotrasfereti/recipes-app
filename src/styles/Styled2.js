@@ -66,3 +66,19 @@ export const Card = styled.div`
     }
   }
 `;
+
+/* ============= FOOTER ============= */
+export const FooterSc = styled.footer`
+  align-items: center;
+  background: transparent;
+  box-shadow: inset 0 1px 4px ${lightGray};
+  display: flex;
+  height: 3.5rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 100%;
+
+  & > button {
+    margin: 0 20px;
+  }
+`;
