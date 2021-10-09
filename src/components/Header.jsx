@@ -7,12 +7,15 @@ import { useHistory } from 'react-router-dom';
 // PropTypes
 import PropTypes from 'prop-types';
 
-// Images
-import profileIcon from '../images/profileIcon.svg';
-import searchIcon from '../images/searchIcon.svg';
-
 // Children
 import SearchBar from './SearchBar';
+
+// Styles
+import {
+  HeaderSc,
+  H2,
+  IconBtn,
+} from '../styles/Styled';
 
 function Header({ searchBtn, title }) {
   /* Router */
@@ -23,41 +26,31 @@ function Header({ searchBtn, title }) {
 
   return (
     <>
-      <header>
+      <HeaderSc>
         {/* Ir para a página de Perfíl */}
-        <button
+        <IconBtn
           type="button"
           onClick={ () => history.push('/perfil') }
           disabled={ !searchBtn } // Desabilitar quando estiver na tela de perfil
         >
-          <img
-            src={ profileIcon }
-            data-testid="profile-top-btn"
-            alt="User person icon"
-          />
-        </button>
+          <i className="uil uil-user icon" />
+        </IconBtn>
 
         {/* Título da página */}
-        <h2 data-testid="page-title">{ title }</h2>
+        <H2 data-testid="page-title">{ title }</H2>
 
         {
           searchBtn && (
-            <button
+            <IconBtn
               type="button"
               onClick={ () => setToggleSearch(!toggleSearch) }
             >
-              <img
-                src={ searchIcon }
-                alt="Search button icon"
-                data-testid="search-top-btn"
-              />
-            </button>
+              <i className="uil uil-search-alt icon" />
+            </IconBtn>
           )
         }
-      </header>
-      <div>
-        { toggleSearch && <SearchBar /> }
-      </div>
+      </HeaderSc>
+      { toggleSearch && <SearchBar /> }
     </>
   );
 }

@@ -8,6 +8,15 @@ import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../redux/actions';
 
+// Styles
+import {
+  Button,
+  Container,
+  TextInput,
+  Label,
+  SearchForm,
+} from '../styles/Styled';
+
 function SearchBar() {
   const [searchText, setSearchText] = useState('');
   const [searchFilter, setSearchFilter] = useState('ingredient');
@@ -32,18 +41,25 @@ function SearchBar() {
     }
   };
 
+  // Category Button
+  function filterClick(evt) {
+    // Set filter
+    const { value } = evt.target;
+    setSearchFilter(value);
+
+    // Apply Styles
+    const radios = document.querySelectorAll('.radio-btn');
+    radios.forEach((btn) => btn.classList.remove('radio-selected'));
+
+    const { target } = evt;
+    target.classList.add('radio-selected');
+  }
+
   return (
-    <form className="search-bar">
-      <input
-        type="text"
-        placeholder="Buscar Receita"
-        id="search-input"
-        data-testid="search-input"
-        value={ searchText }
-        onChange={ ({ target: { value } }) => setSearchText(value) }
-      />
-      <div>
-        <label htmlFor="ingredient">
+    <SearchForm className="search-bar">
+      {/* Opções de filtro */}
+      <Container>
+        <Label htmlFor="ingredient" row>
           Ingrediente
           <input
             id="ingredient"
@@ -51,10 +67,11 @@ function SearchBar() {
             type="radio"
             name="search-filter"
             data-testid="ingredient-search-radio"
-            onChange={ ({ target: { value } }) => setSearchFilter(value) }
+            onChange={ (evt) => filterClick(evt) }
+            className="radio-btn radio-selected"
           />
-        </label>
-        <label htmlFor="name">
+        </Label>
+        <Label htmlFor="name" row>
           Nome
           <input
             id="name"
@@ -62,10 +79,11 @@ function SearchBar() {
             type="radio"
             name="search-filter"
             data-testid="name-search-radio"
-            onChange={ ({ target: { value } }) => setSearchFilter(value) }
+            onChange={ (evt) => filterClick(evt) }
+            className="radio-btn"
           />
-        </label>
-        <label htmlFor="first-letter">
+        </Label>
+        <Label htmlFor="first-letter" row>
           Primeira Letra
           <input
             id="first-letter"
@@ -73,19 +91,35 @@ function SearchBar() {
             type="radio"
             name="search-filter"
             data-testid="first-letter-search-radio"
-            onChange={ ({ target: { value } }) => setSearchFilter(value) }
+            onChange={ (evt) => filterClick(evt) }
+            className="radio-btn"
           />
-        </label>
-      </div>
-      <button
-        onClick={ () => handleSubmit() }
-        disabled={ searchText.length < 1 }
-        type="button"
-        data-testid="exec-search-btn"
-      >
-        Buscar
-      </button>
-    </form>
+        </Label>
+      </Container>
+      <Container>
+        {/* Input */}
+        <TextInput
+          type="text"
+          placeholder="Digite um termo de busca..."
+          id="search-input"
+          data-testid="search-input"
+          value={ searchText }
+          onChange={ ({ target: { value } }) => setSearchText(value) }
+          small
+        />
+
+        {/* Botão Pesquisar */}
+        <Button
+          onClick={ () => handleSubmit() }
+          disabled={ searchText.length < 1 }
+          type="button"
+          data-testid="exec-search-btn"
+          small
+        >
+          Buscar
+        </Button>
+      </Container>
+    </SearchForm>
   );
 }
 

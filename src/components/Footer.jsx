@@ -12,13 +12,8 @@ import mealIcon from '../images/mealIcon.svg';
 function Footer() {
   const history = useHistory();
 
-  // remover o style do FOOTER
   return (
-    <footer
-      data-testid="footer"
-      style={ { position: 'fixed',
-        bottom: 0 } }
-    >
+    <footer>
       <button
         type="button"
         onClick={ () => history.push('/bebidas') }

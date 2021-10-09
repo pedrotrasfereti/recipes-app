@@ -6,10 +6,10 @@ import { Redirect } from 'react-router-dom';
 import {
   Wrapper,
   Logo,
-  Title,
+  H1,
   LoginForm,
   Label,
-  Input,
+  TextInput,
   Button,
 } from '../styles/Styled';
 
@@ -47,12 +47,12 @@ function Login() {
     ) : (
       <Wrapper>
         <Logo src={ logo } alt="logo" style={ { height: '11.5em' } } />
-        <Title>Let&apos;s Cook</Title>
+        <H1>Let&apos;s Cook</H1>
         <LoginForm>
           {/* Input Email */}
           <Label htmlFor="email-input">
             <span>Email:</span>
-            <Input
+            <TextInput
               id="email-input"
               type="email"
               data-testid="email-input"
@@ -63,7 +63,7 @@ function Login() {
           {/* Input Senha */}
           <Label htmlFor="password-input">
             <span>Senha:</span>
-            <Input
+            <TextInput
               id="password-input"
               type="password"
               data-testid="password-input"

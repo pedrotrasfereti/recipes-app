@@ -14,3 +14,63 @@ body {
   color: #2a2e34;
   font-family: Poppins , sans-serif;
 }
+
+.icon {
+  color: #ffc20f;
+  font-size: 1.75rem;
+  transition: .2s;
+}
+
+.icon:hover {
+  color: #FAB309;
+}
+
+.category-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #D6D6D6;
+  border-radius: 1.2rem;
+  color: #3b3f46;
+  padding: 3px 9px;
+  margin-left: .5rem;
+  height: 36px;
+  width: auto;
+};
+
+.category-btn:hover {
+  background-color: #D2D3EE;
+}
+
+.category-btn:focus {
+  outline: none;
+}
+
+.category-btn::-moz-focus-inner {
+  border: 0;
+}
+
+.category-selected {
+  background-color: #0B7372;
+  border: 1px solid #108690;
+  color: #f0f0f0;
+  box-shadow: inset 0 0 20px 1px #108690;
+}
+
+.radio-btn {
+  appearance: none;
+  background: transparent;
+  border: 3.5px solid #f0f0f0;
+  border-radius: 100%;
+  height: 11.5px;
+  width: 11.5px;
+  outline: 2px solid #ffc20f;
+  cursor: pointer;
+  transform: translateX(45%);
+}
+
+.radio-btn:focus {
+  box-shadow: 0 0 4px 1px #ffc20f90;
+}
+
+.radio-selected {
+  background-color: #ffc20f;
+}

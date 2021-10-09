@@ -22,6 +22,16 @@ import Header from '../components/Header';
 // Services
 import { categoriesAPI, filterCategoryAPI } from '../services/apiRequest';
 
+// Styles
+import {
+  Container,
+} from '../styles/Styled';
+
+import {
+  List,
+  Card,
+} from '../styles/Styled2';
+
 function Recipes({ foodDrink }) {
   // Variables
   const foodDrinkCap = capitalize(foodDrink).slice(0, foodDrink.length - 1);
@@ -81,72 +91,86 @@ function Recipes({ foodDrink }) {
     return (filteredRecipes && filteredRecipes.length ? filteredRecipes : recipes);
   }
 
+  // Category Button
+  function categoryClick(evt) {
+    // Set filter
+    const { value } = evt.target;
+    setCategoryFilter(value);
+
+    // Apply Styles
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach((btn) => btn.classList.remove('category-selected'));
+
+    const { target } = evt;
+    target.classList.add('category-selected');
+  }
+
   return (
     <>
       <Header searchBtn title={ capitalize(path.slice(1, path.length)) } />
-      {/* Filtro Por Categoria */}
-      <button
-        onClick={ ({ target: { value } }) => {
-          setCategoryFilter(value);
-        } }
-        type="button"
-        data-testid="All-category-filter"
-        value="All"
-      >
-        All
-      </button>
-
-      {categories.map(({ strCategory }, index) => (
-        <button
-          key={ `${strCategory} - ${index}` }
-          onClick={ ({ target: { value } }) => {
-            setCategoryFilter(categoryFilter !== value ? value : 'All');
-          } }
-          type="button"
-          data-testid={ `${strCategory}-category-filter` }
-          value={ strCategory }
-        >
-          {strCategory}
-        </button>))}
-
       <main>
+        {/* Filtro Por Categoria */}
+        <List>
+          <button
+            onClick={ (evt) => categoryClick(evt) }
+            type="button"
+            data-testid="All-category-filter"
+            value="All"
+            className="category-btn category-selected"
+          >
+            All
+          </button>
+
+          {categories.map(({ strCategory }, index) => (
+            <button
+              key={ `${strCategory} - ${index}` }
+              onClick={ (evt) => categoryClick(evt) }
+              type="button"
+              data-testid={ `${strCategory}-category-filter` }
+              value={ strCategory }
+              className="category-btn"
+            >
+              {strCategory}
+            </button>))}
+        </List>
+
+        {/* Alertas e mensagens */}
         { (!loading && !recipes) && <p>Digite algum termo de pesquisa</p> }
         { loading && <h1>Carregando...</h1> }
         {
           recipes === null && global
             .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.')
         }
-        {
-          recipes && recipes.length > 1 && (
-            (renderRecipes()).map((recipe, index) => {
-              const PAGE_LIMIT = 11;
-              if (index <= PAGE_LIMIT) {
-                return (
-                  <div
-                    key={ recipe[`id${foodDrinkCap}`] }
-                    data-testid={ `${index}-recipe-card` }
-                  >
+
+        {/* Cards de receitas */}
+        <Container>
+          {
+            recipes && recipes.length > 1 && (
+              (renderRecipes()).map((recipe, index) => {
+                const PAGE_LIMIT = 11;
+                if (index <= PAGE_LIMIT) {
+                  return (
                     <Link
+                      key={ recipe[`id${foodDrinkCap}`] }
                       to={ `${(foodDrink === 'meals'
                         ? 'comidas' : 'bebidas')}/${recipe[`id${foodDrinkCap}`]}` }
                     >
-                      <img
-                        src={ recipe[`str${foodDrinkCap}Thumb`] }
-                        data-testid={ `${index}-card-img` }
-                        alt={ recipe[`str${foodDrinkCap}`] }
-                      />
+                      <Card
+                        style={ {
+                          backgroundImage: `url(${recipe[`str${foodDrinkCap}Thumb`]})`,
+                          backgroundSize: 'contain',
+                        } }
+                      >
+                        <span>{recipe[`str${foodDrinkCap}`]}</span>
+                      </Card>
                     </Link>
-                    <span
-                      data-testid={ `${index}-card-name` }
-                    >
-                      {recipe[`str${foodDrinkCap}`]}
-                    </span>
-                  </div>
-                );
-              } return null;
-            })
-          )
-        }
+                  );
+                } return null;
+              })
+            )
+          }
+        </Container>
+
         {
           (recipes && recipes.length === 1) && history
             .push(`${path}/${recipes[0][`id${foodDrinkCap}`]}`)
