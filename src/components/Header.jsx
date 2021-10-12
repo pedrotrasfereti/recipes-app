@@ -38,16 +38,13 @@ function Header({ searchBtn, title }) {
         {/* Título da página */}
         <H2 data-testid="page-title">{ title }</H2>
 
-        {
-          searchBtn && (
-            <IconBtn
-              type="button"
-              onClick={ () => setToggleSearch(!toggleSearch) }
-            >
-              <i className="uil uil-search-alt icon" />
-            </IconBtn>
-          )
-        }
+        <IconBtn
+          type="button"
+          onClick={ () => setToggleSearch(!toggleSearch) }
+          className={ !searchBtn && 'hidden' }
+        >
+          <i className="uil uil-search-alt icon" />
+        </IconBtn>
       </HeaderSc>
       { toggleSearch && <SearchBar /> }
     </>

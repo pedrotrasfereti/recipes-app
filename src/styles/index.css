@@ -106,3 +106,7 @@ body {
 .action-alt:not(:disabled):hover {
   background-color: #0a6967;
 }
+
+.hidden {
+  visibility: hidden;
+}

@@ -217,9 +217,6 @@ export const HeaderSc = styled.header`
 
   & > h2 {
     align-self: flex-end;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   & > button {
