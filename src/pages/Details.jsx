@@ -27,7 +27,7 @@ import {
   Carousel,
   DetailsBtns,
   DetailsContent,
-  ThumbSc,
+  DetailsThumb,
 } from '../styles/Styled2';
 
 function Details({ foodDrink = '' }) {
@@ -102,14 +102,14 @@ function Details({ foodDrink = '' }) {
       { details && (
         <>
           {/* Thumb */}
-          <ThumbSc>
+          <DetailsThumb>
             <img
               src={ details[`str${foodDrinkCap}Thumb`] }
               alt={ details[`str${foodDrinkCap}`] }
               className="details-thumb"
               data-testid="recipe-photo"
             />
-          </ThumbSc>
+          </DetailsThumb>
 
           <DetailsContent>
             <DetailsBtns>
@@ -171,23 +171,13 @@ function Details({ foodDrink = '' }) {
             <Carousel>{ recs }</Carousel>
 
             {/* Iniciar receita */}
-            { recipeProgress() ? (
-              <button
-                type="button"
-                className="details-action-btn action-continue"
-                onClick={ () => history.push(`${path}/in-progress`) }
-              >
-                Continuar Receita
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="details-action-btn"
-                onClick={ () => history.push(`${path}/in-progress`) }
-              >
-                Iniciar Receita
-              </button>
-            ) }
+            <button
+              type="button"
+              className="details-action-btn"
+              onClick={ () => history.push(`${path}/in-progress`) }
+            >
+              { recipeProgress() ? 'Continuar Receita' : 'Iniciar Receita' }
+            </button>
           </DetailsContent>
 
           {/* Modal */}

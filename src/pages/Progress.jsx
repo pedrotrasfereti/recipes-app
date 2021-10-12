@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import capitalize from '../helpers/capitalizeStr';
 import checkFavorite from '../helpers/checkFavorite';
+import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelper';
+import { getDate, getTags, getType } from '../helpers/getRecipeHelpers';
 
 // Services
 import { detailsAPI } from '../services/apiRequest';
@@ -20,9 +22,12 @@ import newRecipe from '../helpers/newRecipe';
 import RenderCheckbox from '../components/RenderCheckbox';
 
 // Styles
-import '../styles/Progress.css';
-import { loadLocalStorage, saveLocalStorage } from '../helpers/localStorageHelper';
-import { getDate, getTags, getType } from '../helpers/getRecipeHelpers';
+import {
+  CheckboxList,
+  DetailsBtns,
+  DetailsContent,
+  DetailsThumb,
+} from '../styles/Styled2';
 
 function Progress({ foodDrink }) {
   const path = useLocation().pathname; // Caminho atual
@@ -113,53 +118,63 @@ function Progress({ foodDrink }) {
       {recipe && (
         <>
           {/* Thumb */}
-          <img
-            data-testid="recipe-photo"
-            src={ recipe[`str${foodDrinkCap}Thumb`] }
-            alt={ recipe[`str${foodDrinkCap}`] }
-          />
-
-          {/* Título */}
-          <h1 data-testid="recipe-title">{ recipe[`str${foodDrinkCap}`] }</h1>
-
-          {/* Compartilhar */}
-          <ShareButton
-            handleShowModal={ handleShowModal }
-            foodDrink={ foodDrinkPT }
-            id={ id }
-          />
-
-          {/* Favoritar */}
-          <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
-
-          {/* Categoria */}
-          <h2
-            data-testid="recipe-category"
-          >
-            {foodDrink === 'drinks' ? recipe.strAlcoholic : recipe.strCategory}
-          </h2>
-
-          {/* Ingredientes */}
-          <ol>
-            <RenderCheckbox
-              data={ recipe }
-              checkbox
-              className="progress-done"
-              id={ id }
-              foodDrink={ foodDrink }
-              setDoneRecipe={ setDoneRecipe }
+          <DetailsThumb>
+            <img
+              src={ recipe[`str${foodDrinkCap}Thumb`] }
+              alt={ recipe[`str${foodDrinkCap}`] }
             />
-          </ol>
+          </DetailsThumb>
 
-          {/* Instruções */}
-          <h1>Instructions</h1>
-          <p data-testid="instructions">{recipe.strInstructions}</p>
+          <DetailsContent>
+            <DetailsBtns>
+              {/* Compartilhar */}
+              <ShareButton
+                handleShowModal={ handleShowModal }
+                foodDrink={ foodDrinkPT }
+                id={ id }
+              />
+
+              {/* Favoritar */}
+              <FavoriteButton
+                isFavorite={ isFavorite }
+                manageFavorites={ manageFavorites }
+              />
+            </DetailsBtns>
+
+            {/* Título */}
+            <h1 className="details-title">
+              { recipe[`str${foodDrinkCap}`] }
+            </h1>
+
+            {/* Categoria */}
+            <span className="details-category">
+              {foodDrink === 'drinks' ? recipe.strAlcoholic : recipe.strCategory}
+            </span>
+
+            {/* Ingredientes */}
+            <h2>Ingredients</h2>
+            <CheckboxList>
+              <RenderCheckbox
+                data={ recipe }
+                checkbox
+                className="progress-done"
+                id={ id }
+                foodDrink={ foodDrink }
+                setDoneRecipe={ setDoneRecipe }
+              />
+            </CheckboxList>
+
+            {/* Instruções */}
+            <h2>Instructions</h2>
+            <p className="details-instructions">
+              { recipe.strInstructions }
+            </p>
+          </DetailsContent>
 
           {/* Iniciar receita */}
           <button
             type="button"
-            className="progress-done"
-            data-testid="finish-recipe-btn"
+            className="details-action-btn action-alt"
             disabled={ doneRecipe }
             onClick={ () => {
               manageAddDoneRecipe(recipe);
@@ -168,6 +183,7 @@ function Progress({ foodDrink }) {
           >
             Finalizar Receita
           </button>
+
           <Modal show={ showModal } onHide={ handleCloseModal }>
             <Modal.Header closeButton>
               Link copiado!

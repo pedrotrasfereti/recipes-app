@@ -52,16 +52,18 @@ function RenderCheckbox({ data, id, foodDrink, setDoneRecipe }) {
   return combined.map((item, i) => {
     const checked = list.includes(item[0]);
     return (
-      <label data-testid={ `${i}-ingredient-step` } htmlFor={ i } key={ i }>
-        {item}
-        <input
-          type="checkbox"
-          defaultChecked={ checked }
-          id={ i }
-          value={ item }
-          onClick={ (e) => pushIngredient(e.target.value, e.target.checked) }
-        />
-      </label>
+      <li key={ i }>
+        <label htmlFor={ i }>
+          <input
+            type="checkbox"
+            defaultChecked={ checked }
+            id={ i }
+            value={ item }
+            onClick={ (e) => pushIngredient(e.target.value, e.target.checked) }
+          />
+          <span>{item}</span>
+        </label>
+      </li>
     );
   });
 }

@@ -81,7 +81,7 @@ export const FooterSc = styled.footer`
 
 /* ============= DETAILS ============= */
 // Thumb
-export const ThumbSc = styled.div`
+export const DetailsThumb = styled.div`
   position: fixed;
   top: 0;
 
@@ -199,5 +199,17 @@ export const Carousel = styled.div`
   & > .carousel-card > .card-title {
     font: 500 1.25rem Poppins , sans-serif;
     margin: .25em auto 0;
+  }
+`;
+
+export const CheckboxList = styled.ol`
+  align-items: flex-start;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+
+  & > li > label > span {
+    margin: .25em;
   }
 `;
