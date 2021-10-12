@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  background-color: #F6F7FB;
+  background-color: #FFFDFA;
   color: #2a2e34;
   font-family: Poppins , sans-serif;
 }
@@ -74,4 +74,31 @@ body {
 
 .radio-selected {
   background-color: #ffc20f;
+}
+
+.details-action-btn {
+  appearance: none;
+  background-color: #fbcf14;
+  bottom: 0;
+  border: 0;
+  color: #2a2e34;
+  height: 3.1em;
+  outline: 0;
+  position: fixed;
+  transition: .2s;
+  width: 100%;
+}
+
+.details-action-btn:hover {
+  background-color: #ffc20f;
+  box-shadow: 0 0 5px #fbcf14;
+}
+
+.action-continue {
+  background-color: #0B7372;
+  color: #f0f0f0;
+}
+
+.action-continue:hover {
+  background-color: #0a6967;
 }

@@ -24,15 +24,22 @@ const renderRecs = async (foodDrinkPT) => {
     const MAX_LIMIT = 5;
     if (i <= MAX_LIMIT) {
       return (
-        <div className="rec-card" key={ i } data-testid={ `${i}-recomendation-card` }>
+        <div
+          className="carousel-card"
+          key={ i }
+          data-testid={ `${i}-recomendation-card` }
+        >
           <img
             alt={ recipe[`str${resultKeyCap}`] }
             src={ recipe[`str${resultKeyCap}Thumb`] }
+            className="card-thumb"
           />
-          <span>
+
+          <span className="card-cat">
             {resultKey === 'drinks' ? recipe.strAlcoholic : recipe.strCategory}
           </span>
-          <h1 data-testid={ `${i}-recomendation-title` }>
+
+          <h1 className="card-title" data-testid={ `${i}-recomendation-title` }>
             { recipe[`str${resultKeyCap}`] }
           </h1>
         </div>

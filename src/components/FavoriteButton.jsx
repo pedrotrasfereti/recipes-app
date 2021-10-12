@@ -3,23 +3,24 @@ import React from 'react';
 // PropTypes
 import PropTypes from 'prop-types';
 
-// Images
-import emptyHeart from '../images/whiteHeartIcon.svg';
-import fullHeart from '../images/blackHeartIcon.svg';
+// Styles
+import {
+  IconBtn,
+} from '../styles/Styled';
 
 function FavoriteButton({ isFavorite, manageFavorites }) {
   return (
-    <button
+    <IconBtn
       type="button"
       className="details-favorites-btn"
       onClick={ () => manageFavorites() }
     >
-      <img
-        data-testid="favorite-btn"
-        src={ isFavorite ? fullHeart : emptyHeart }
-        alt={ isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }
-      />
-    </button>
+      { isFavorite ? (
+        <i className="material-icons icon">favorite</i>
+      ) : (
+        <i className="material-icons icon">favorite_border</i>
+      ) }
+    </IconBtn>
   );
 }
 

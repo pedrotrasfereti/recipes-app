@@ -13,6 +13,12 @@ import capitalize from '../helpers/capitalizeStr';
 // Services
 import { randomRecipeAPI } from '../services/apiRequest';
 
+// Styles
+import {
+  Button,
+  Wrapper,
+} from '../styles/Styled';
+
 const ExploreNavFd = (props) => {
   // Props
   const { foodDrink, history } = props;
@@ -32,36 +38,36 @@ const ExploreNavFd = (props) => {
   }, [foodDrink, foodDrinkCap]);
 
   return (
-    <>
+    <Wrapper secondary>
       {/* Explorar por ingredientes */}
-      <button
+      <Button
         type="button"
         data-testid="explore-by-ingredient"
         onClick={ () => history.push(`/explorar/${foodDrinkPT}/ingredientes`) }
       >
         Por Ingredientes
-      </button>
+      </Button>
 
       {/* Explorar por local de origem */}
       { foodDrink === 'meals' && (
-        <button
+        <Button
           type="button"
           data-testid="explore-by-area"
           onClick={ () => history.push('/explorar/comidas/area') }
         >
           Por Local de Origem
-        </button>
+        </Button>
       ) }
 
       {/* Receita aleatória */}
-      <button
+      <Button
         type="button"
         data-testid="explore-surprise"
         onClick={ () => history.push(`/${foodDrinkPT}/${surpriseId}`) }
       >
         Me Surpreenda!
-      </button>
-    </>
+      </Button>
+    </Wrapper>
   );
 };
 

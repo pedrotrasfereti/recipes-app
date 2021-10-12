@@ -15,17 +15,6 @@ const yellowAlt = '#ffc20f';
 // const yellowDarker = '#FAB309';
 const yellowPale = '#FAD84C';
 
-// const blue = '#1D1E4E'; // Blue and Green
-// const seaGreen = '#108690';
-// const seaGreenAlt = '#0B7372';
-
-// const green = '#7AC74F'; // Other
-// const pistachio = '#A1CF6B';
-// const khaki = '#D5D887';
-// const flax = '#E0C879';
-// const terracota = '#E87461';
-// const periwinkle = '#D2D3EE';
-
 /* ==================== COMPONENTS ==================== */
 
 /* ============= DIV ============= */
@@ -68,6 +57,15 @@ export const Wrapper = styled.div`
   justify-content: center;
   min-height: 100vh;
   min-width: 100%;
+
+  ${(props) => props.secondary && css`
+    gap: 1rem;
+    justify-content: flex-start;
+
+    & > button:first-of-type {
+      margin-top: 2.5rem;
+    }
+  `}
 `;
 
 /* ============= FORM ============= */
@@ -192,9 +190,12 @@ export const Button = styled.button`
 
 // Icon Button
 export const IconBtn = styled.button`
+  align-items: center;
   appearance: none;
   background: transparent;
   border: 0;
+  display: flex;
+  justify-content: center;
 
   &:focus {
     outline: none;

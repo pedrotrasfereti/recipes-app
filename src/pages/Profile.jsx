@@ -1,12 +1,21 @@
 // React
 import React from 'react';
-import { Button } from 'react-bootstrap';
+
+// Router
 import { useHistory } from 'react-router';
-import Footer from '../components/Footer';
 
 // Children
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+// Helpers
 import { loadLocalStorage } from '../helpers/localStorageHelper';
+
+// Styles
+import {
+  Button,
+  Wrapper,
+} from '../styles/Styled';
 
 function Profile() {
   /* usando useHistory para trocar de pagina */
@@ -17,34 +26,38 @@ function Profile() {
     localStorage.clear();
     history.push('/');
   };
+
   const user = loadLocalStorage('user'); // modificado a linha 24
+
   return (
-    <div>
+    <>
       <Header title="Perfil" />
-      <p data-testid="profile-email">{user.email}</p>
-      <Button
-        onClick={ () => history.push('/receitas-feitas') }
-        data-testid="profile-done-btn"
-        variant="secondary"
-      >
-        Receitas Feitas
-      </Button>
-      <Button
-        onClick={ () => history.push('/receitas-favoritas') }
-        data-testid="profile-favorite-btn"
-        variant="secondary"
-      >
-        Receitas Favoritas
-      </Button>
-      <Button
-        onClick={ () => handleLogout() }
-        data-testid="profile-logout-btn"
-        variant="secondary"
-      >
-        Sair
-      </Button>
+      <Wrapper secondary>
+        <p data-testid="profile-email">{user.email}</p>
+        <Button
+          onClick={ () => history.push('/receitas-feitas') }
+          data-testid="profile-done-btn"
+          variant="secondary"
+        >
+          Receitas Feitas
+        </Button>
+        <Button
+          onClick={ () => history.push('/receitas-favoritas') }
+          data-testid="profile-favorite-btn"
+          variant="secondary"
+        >
+          Receitas Favoritas
+        </Button>
+        <Button
+          onClick={ () => handleLogout() }
+          data-testid="profile-logout-btn"
+          variant="secondary"
+        >
+          Sair
+        </Button>
+      </Wrapper>
       <Footer />
-    </div>
+    </>
   );
 }
 

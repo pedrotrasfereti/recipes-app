@@ -7,12 +7,14 @@ import PropTypes from 'prop-types';
 // Services
 import copy from 'clipboard-copy';
 
-// Images
-import shareIcon from '../images/shareIcon.svg';
+// Styles
+import {
+  IconBtn,
+} from '../styles/Styled';
 
 function ShareButton({ handleShowModal, foodDrink, id }) {
   return (
-    <button
+    <IconBtn
       type="button"
       className="details-share-btn"
       data-testid="share-btn"
@@ -21,8 +23,8 @@ function ShareButton({ handleShowModal, foodDrink, id }) {
         handleShowModal();
       } }
     >
-      <img src={ shareIcon } alt="Copiar Link" />
-    </button>
+      <i className="uil uil-share-alt icon" />
+    </IconBtn>
   );
 }
 

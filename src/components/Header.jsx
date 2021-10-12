@@ -31,7 +31,6 @@ function Header({ searchBtn, title }) {
         <IconBtn
           type="button"
           onClick={ () => history.push('/perfil') }
-          disabled={ !searchBtn } // Desabilitar quando estiver na tela de perfil
         >
           <i className="uil uil-user icon" />
         </IconBtn>

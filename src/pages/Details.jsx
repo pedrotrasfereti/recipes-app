@@ -11,19 +11,24 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import { detailsAPI } from '../services/apiRequest';
 
-// HelpersDetails
+// Helpers
 import capitalize from '../helpers/capitalizeStr';
 import renderRecs from '../helpers/renderRecs';
 import newRecipe from '../helpers/newRecipe';
 import checkFavorite from '../helpers/checkFavorite';
 
-// Styles
-import '../styles/Details.css';
-
 // Components
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 import RenderIngredients from '../components/RenderIngredients';
+
+// Styles
+import {
+  Carousel,
+  DetailsBtns,
+  DetailsContent,
+  ThumbSc,
+} from '../styles/Styled2';
 
 function Details({ foodDrink = '' }) {
   const history = useHistory(); // History
@@ -97,74 +102,95 @@ function Details({ foodDrink = '' }) {
       { details && (
         <>
           {/* Thumb */}
-          <img
-            src={ details[`str${foodDrinkCap}Thumb`] }
-            alt={ details[`str${foodDrinkCap}`] }
-            className="details-thumb"
-            data-testid="recipe-photo"
-          />
-
-          {/* Título */}
-          <h1 className="details-title" data-testid="recipe-title">
-            { details[`str${foodDrinkCap}`] }
-          </h1>
-
-          {/* Compartilhar */}
-          <ShareButton
-            handleShowModal={ handleShowModal }
-            foodDrink={ foodDrinkPT }
-            id={ id }
-          />
-
-          {/* Favoritar */}
-          <FavoriteButton isFavorite={ isFavorite } manageFavorites={ manageFavorites } />
-
-          {/* Categoria */}
-          <span className="details-category" data-testid="recipe-category">
-            {
-              foodDrink === 'drinks' ? (
-                details.strAlcoholic
-              ) : (
-                details.strCategory
-              )
-            }
-          </span>
-
-          {/* Ingredientes */}
-          <ol>
-            <RenderIngredients data={ details } />
-          </ol>
-
-          {/* Instruções */}
-          <h1>Instructions</h1>
-          <p className="details-instructions" data-testid="instructions">
-            { details.strInstructions }
-          </p>
-
-          {/* Vídeo YT */}
-          { foodDrink === 'meals' && (
-            <iframe
-              title={ `How to prepare ${details[`str${foodDrinkCap}`]}` }
-              data-testid="video"
-              src={ (details.strYoutube.replace('watch?v=', 'embed/')) }
-              allowFullScreen
+          <ThumbSc>
+            <img
+              src={ details[`str${foodDrinkCap}Thumb`] }
+              alt={ details[`str${foodDrinkCap}`] }
+              className="details-thumb"
+              data-testid="recipe-photo"
             />
-          )}
+          </ThumbSc>
 
-          {/* Carrossel de receitas recomendadas */}
-          <div className="details-carousel">
-            { recs }
-          </div>
+          <DetailsContent>
+            <DetailsBtns>
+              {/* Compartilhar */}
+              <ShareButton
+                handleShowModal={ handleShowModal }
+                foodDrink={ foodDrinkPT }
+                id={ id }
+              />
 
-          {/* Iniciar receita */}
-          <button
-            type="button"
-            className="details-start"
-            data-testid="start-recipe-btn"
-            onClick={ () => history.push(`${path}/in-progress`) }
-          >
-            { recipeProgress() ? 'Continuar Receita' : 'Iniciar Receita' }
-          </button>
+              {/* Favoritar */}
+              <FavoriteButton
+                isFavorite={ isFavorite }
+                manageFavorites={ manageFavorites }
+              />
+            </DetailsBtns>
+
+            {/* Título */}
+            <h1 className="details-title" data-testid="recipe-title">
+              { details[`str${foodDrinkCap}`] }
+            </h1>
+
+            {/* Categoria */}
+            <span className="details-category" data-testid="recipe-category">
+              {
+                foodDrink === 'drinks' ? (
+                  details.strAlcoholic
+                ) : (
+                  details.strCategory
+                )
+              }
+            </span>
+
+            {/* Ingredientes */}
+            <h2>Ingredients</h2>
+            <ol>
+              <RenderIngredients data={ details } />
+            </ol>
+
+            {/* Instruções */}
+            <h2>Instructions</h2>
+            <p className="details-instructions" data-testid="instructions">
+              { details.strInstructions }
+            </p>
+
+            {/* Vídeo YT */}
+            { foodDrink === 'meals' && (
+              <iframe
+                title={ `How to prepare ${details[`str${foodDrinkCap}`]}` }
+                className="details-video"
+                data-testid="video"
+                src={ (details.strYoutube.replace('watch?v=', 'embed/')) }
+                allowFullScreen
+              />
+            )}
+
+            {/* Carrossel de receitas recomendadas */}
+            <h2>Recommended</h2>
+            <Carousel>{ recs }</Carousel>
+
+            {/* Iniciar receita */}
+            { recipeProgress() ? (
+              <button
+                type="button"
+                className="details-action-btn action-continue"
+                onClick={ () => history.push(`${path}/in-progress`) }
+              >
+                Continuar Receita
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="details-action-btn"
+                onClick={ () => history.push(`${path}/in-progress`) }
+              >
+                Iniciar Receita
+              </button>
+            ) }
+          </DetailsContent>
+
+          {/* Modal */}
           <Modal show={ showModal } onHide={ handleCloseModal }>
             <Modal.Header closeButton>
               Link copiado!

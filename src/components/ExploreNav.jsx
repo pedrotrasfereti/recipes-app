@@ -7,26 +7,32 @@ import { withRouter } from 'react-router';
 // PropTypes
 import PropTypes from 'prop-types';
 
+// Styles
+import {
+  Button,
+  Wrapper,
+} from '../styles/Styled';
+
 const ExploreNav = ({ history }) => (
-  <>
+  <Wrapper secondary>
     {/* Ir para tela de explorar comidas */}
-    <button
+    <Button
       type="button"
       data-testid="explore-food"
       onClick={ () => history.push('/explorar/comidas') }
     >
       Explorar Comidas
-    </button>
+    </Button>
 
     {/* Ir para tela de explorar bebidas */}
-    <button
+    <Button
       type="button"
       data-testid="explore-drinks"
       onClick={ () => history.push('/explorar/bebidas') }
     >
       Explorar Bebidas
-    </button>
-  </>
+    </Button>
+  </Wrapper>
 );
 
 ExploreNav.propTypes = {
