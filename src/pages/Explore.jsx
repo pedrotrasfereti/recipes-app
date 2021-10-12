@@ -23,6 +23,16 @@ import {
 // Services
 import { ingredientsAPI, areasAPI, recipesByAreaAPI } from '../services/apiRequest';
 
+// Styles
+// import {
+//   Container,
+// } from '../styles/Styled';
+
+import {
+  // List,
+  Card,
+} from '../styles/Styled2';
+
 function Explore(props) {
   // Props
   const { foodDrink, explore } = props;
@@ -93,7 +103,7 @@ function Explore(props) {
         />
       ) }
 
-      { loading && <span>Carregando...</span> }
+      { loading && <span className="loading">Carregando...</span> }
 
       {/* Cards de ingredientes */}
       { shouldRenderIngrs(browseByIngr, ingredients, loading) && (
@@ -105,15 +115,15 @@ function Explore(props) {
               state: name,
             } }
           >
-            <div data-testid={ `${i}-ingredient-card` }>
-              <img
-                src={ thumb }
-                alt={ name }
-                style={ { width: '300px' } }
-                data-testid={ `${i}-card-img` }
-              />
+            <Card
+              style={ {
+                backgroundImage: `url(${thumb})`,
+                backgroundSize: 'contain',
+                margin: '1em auto',
+              } }
+            >
               <span data-testid={ `${i}-card-name` }>{ name }</span>
-            </div>
+            </Card>
           </Link>
         ))
       ) }

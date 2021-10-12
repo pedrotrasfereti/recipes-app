@@ -148,7 +148,7 @@ export const DetailsContent = styled.div`
     font: 400 1.1rem Poppins , sans-serif;
   }
 
-  & > ol, & > p {
+  & > ol, & > .details-instructions {
     margin-bottom: 1em;
   }
 

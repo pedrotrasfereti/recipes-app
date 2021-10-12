@@ -136,7 +136,9 @@ function Recipes({ foodDrink }) {
 
         {/* Alertas e mensagens */}
         { (!loading && !recipes) && <p>Digite algum termo de pesquisa</p> }
-        { loading && <h1>Carregando...</h1> }
+
+        { loading && <span className="loading">Carregando...</span> }
+
         {
           recipes === null && global
             .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.')

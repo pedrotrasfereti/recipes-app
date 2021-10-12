@@ -114,7 +114,7 @@ function Progress({ foodDrink }) {
 
   return (
     <section>
-      {loading && <span>Carregando...</span>}
+      {loading && <span className="loading">Carregando...</span>}
       {recipe && (
         <>
           {/* Thumb */}
@@ -166,7 +166,7 @@ function Progress({ foodDrink }) {
 
             {/* Instruções */}
             <h2>Instructions</h2>
-            <p className="details-instructions">
+            <p className="details-instructions" style={ { margin: '0 auto 5em' } }>
               { recipe.strInstructions }
             </p>
           </DetailsContent>

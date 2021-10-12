@@ -98,7 +98,7 @@ function Details({ foodDrink = '' }) {
   return (
     <section>
       {/* Carregando */}
-      { loading && <span>Carregando...</span> }
+      { loading && <span className="loading">Carregando...</span> }
       { details && (
         <>
           {/* Thumb */}

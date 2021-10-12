@@ -216,6 +216,7 @@ export const HeaderSc = styled.header`
   height: 3.5rem;
 
   & > h2 {
+    white-space: nowrap;
     align-self: flex-end;
   }
 

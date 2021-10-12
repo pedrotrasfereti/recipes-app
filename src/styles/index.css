@@ -110,3 +110,11 @@ body {
 .hidden {
   visibility: hidden;
 }
+
+.loading {
+  display: block;
+  height: 100%;
+  margin: 2em auto 100vh;
+  text-align: center;
+  width: 100%;
+}
