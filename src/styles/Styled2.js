@@ -106,7 +106,7 @@ export const DetailsBtns = styled.div`
   }
 `;
 
-// Details
+// Content
 export const DetailsContent = styled.div`
   align-items: flex-start;
   background-color: ${white};
@@ -212,4 +212,14 @@ export const CheckboxList = styled.ol`
   & > li > label > span {
     margin: .25em;
   }
+`;
+
+/* ============= EXPLORE ============= */
+export const Dropdown = styled.select`
+  border: 1px solid ${gray};
+  border-radius: .3em;
+  font: 400 1.15rem Poppins , sans-serif;
+  margin: 1em auto;
+  outline: 0;
+  padding: 3px 10px;
 `;
