@@ -16,7 +16,7 @@ import renderRecs from '../helpers/renderRecs';
 import newRecipe from '../helpers/newRecipe';
 import checkFavorite from '../helpers/checkFavorite';
 
-// Components
+// Children
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 import RenderIngredients from '../components/RenderIngredients';

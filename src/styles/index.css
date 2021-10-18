@@ -25,6 +25,12 @@ body {
   color: #FAB309;
 }
 
+.icon-gray {
+  font-size: 1.75rem;
+  color: #3b3f46;
+  opacity: 50%;
+}
+
 .category-btn {
   background-color: #f0f0f0;
   border: 1px solid #D6D6D6;

@@ -27,18 +27,18 @@ function Done() {
   // State Hooks
   const [filterBtns, setFilterBtns] = useState('all');
 
-  /* Filtrar resultados */
+  // Filtrar por tipo
   const filterByType = () => {
     const filtered = doneRecipes.filter((recipe) => recipe.type === filterBtns);
     return filtered;
   };
 
-  /* Renderizar categorias do card */
+  // Renderizar categorias do card
   const renderTags = (tags) => tags.map((tag, i) => (
     <span key={ i }>{ tag }</span>
   ));
 
-  /* Renderizar cards */
+  // Renderizar cards
   function renderDoneRecipes() {
     const filterCheck = filterBtns === 'all' ? doneRecipes : filterByType();
 
@@ -57,7 +57,7 @@ function Done() {
         {/* Thumb */}
         <div className="card-ext-content">
           <Link className="card-ext-thumb" to={ `${type}s/${id}` }>
-            <img src={ image } alt="" />
+            <img src={ image } alt={ image } />
           </Link>
 
           <div className="card-ext-info">
@@ -77,7 +77,7 @@ function Done() {
         <div className="card-ext-taglist">
           <i className="uil uil-tag-alt icon" />
 
-          {/* Categorias */}
+          {/* Tags */}
           { renderTags(tags) }
 
           {/* Compartilhar */}
@@ -92,31 +92,13 @@ function Done() {
       <Header title="Receitas Feitas" />
       <Container style={ { margin: '1em auto' } }>
         {/* Comidas e bebidas feitas */}
-        <Button
-          type="button"
-          onClick={ () => setFilterBtns('all') }
-          small
-        >
-          All
-        </Button>
+        <Button onClick={ () => setFilterBtns('all') } small>All</Button>
 
         {/* Comidas feitas */}
-        <Button
-          type="button"
-          onClick={ () => setFilterBtns('comida') }
-          small
-        >
-          Food
-        </Button>
+        <Button onClick={ () => setFilterBtns('comida') } small>Food</Button>
 
         {/* Bebidas feitas */}
-        <Button
-          type="button"
-          onClick={ () => setFilterBtns('bebida') }
-          small
-        >
-          Drinks
-        </Button>
+        <Button onClick={ () => setFilterBtns('bebida') } small>Drinks</Button>
       </Container>
 
       {/* Cards */}

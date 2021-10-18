@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 /* ================== COLOR VARIABLES ================== */
 const blackLighter = '#3b3f46'; // Dark Shades
@@ -23,6 +23,7 @@ const CardExt = styled.div`
     border-radius: .6em 0 0 0;
     display: flex;
     height: 7.75em;
+    text-align: center;
 
     & > .card-ext-thumb {
       display: flex;
@@ -65,6 +66,23 @@ const CardExt = styled.div`
       margin-right: .5em;
     }
   }
+
+  ${(props) => props.favorite && css`
+    & > .card-ext-content > .card-ext-info {
+      flex: 2;
+    }
+
+    & > .card-ext-buttons {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      height: 35px;
+
+      & > button {
+        margin: 0 1em;
+      }
+    }
+  `}
 `;
 
 export default CardExt;
