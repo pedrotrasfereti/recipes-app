@@ -8,7 +8,6 @@ import { useLocation, useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Services
-import { Modal } from 'react-bootstrap';
 import { detailsAPI } from '../services/apiRequest';
 
 // Helpers
@@ -41,9 +40,6 @@ function Details({ foodDrink = '' }) {
   const [details, setDetails] = useState(); // Detalhes
   const [loading, setLoading] = useState(false); // Carregando
   const [isFavorite, setIsFavorite] = useState(false); // Favoritado
-  const [showModal, setShowModal] = useState(false); // Mostrar mensagem
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
 
   const [recs, setRecs] = useState(); // Recomendados
 
@@ -115,7 +111,6 @@ function Details({ foodDrink = '' }) {
             <DetailsBtns>
               {/* Compartilhar */}
               <ShareButton
-                handleShowModal={ handleShowModal }
                 foodDrink={ foodDrinkPT }
                 id={ id }
               />
@@ -179,13 +174,6 @@ function Details({ foodDrink = '' }) {
               { recipeProgress() ? 'Continuar Receita' : 'Iniciar Receita' }
             </button>
           </DetailsContent>
-
-          {/* Modal */}
-          <Modal show={ showModal } onHide={ handleCloseModal }>
-            <Modal.Header closeButton>
-              Link copiado!
-            </Modal.Header>
-          </Modal>
         </>
       )}
     </section>

@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 /* ================== COLOR VARIABLES ================== */
-// const black = '#1e2328'; // Dark Shades
-// const blackAlt = '#2a2e34';
 const blackLighter = '#3b3f46';
 
 const gray = '#D6D6D6'; // Light Shades
@@ -23,7 +21,6 @@ const colorRandomizer = () => {
 };
 
 /* ==================== COMPONENTS ==================== */
-
 /* ============= HORIZONTAL LIST ============= */
 export const List = styled.div`
   align-items: center;

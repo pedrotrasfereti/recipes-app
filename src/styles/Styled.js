@@ -61,10 +61,7 @@ export const Wrapper = styled.div`
   ${(props) => props.secondary && css`
     gap: 1rem;
     justify-content: flex-start;
-
-    & > button:first-of-type {
-      margin-top: 2.5rem;
-    }
+    margin-top: 2rem;
   `}
 `;
 
