@@ -34,9 +34,17 @@ function Done() {
   };
 
   // Renderizar categorias do card
-  const renderTags = (tags) => tags.map((tag, i) => (
-    <span key={ i }>{ tag }</span>
-  ));
+  const renderTags = (tags) => tags.map((tag, i, arr) => {
+    if (i !== (arr.length - 1)) {
+      return (
+        <span className="recipe-tag" key={ i }>
+          { tag }
+          ,
+          {' '}
+        </span>);
+    }
+    return (<span className="recipe-tag" key={ i }>{ tag }</span>);
+  });
 
   // Renderizar cards
   function renderDoneRecipes() {

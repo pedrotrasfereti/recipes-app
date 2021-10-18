@@ -38,7 +38,7 @@ const CardExt = styled.div`
     & > .card-ext-info {
       align-items: center;
       display: flex;
-      flex: 1;
+      flex: 1.25;
       flex-flow: column nowrap;
       justify-content: center;
     }
@@ -59,6 +59,10 @@ const CardExt = styled.div`
     & > .uil-tag-alt {
       margin-left: .20em;
       margin-right: .5em;
+    }
+
+    & > .recipe-tag {
+      margin: 0 .2em;
     }
 
     & > button {
