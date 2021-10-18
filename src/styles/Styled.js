@@ -46,6 +46,11 @@ export const Container = styled.div`
   & > a {
     text-decoration: none;
   }
+
+  ${(props) => props.recipes && css`
+    align-items: flex-start;
+    min-height: 90vh;
+  `}
 `;
 
 // Wrapper

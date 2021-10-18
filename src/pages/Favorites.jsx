@@ -31,7 +31,7 @@ function Favorites() {
   // Estilo Desfavoritar
   const heartbreak = (target) => {
     target.innerText = '';
-    target.className = 'uil uil-heart-break icon-gray';
+    target.className = 'uil uil-heart-break icon-pale';
   };
 
   // Remover Favorito
@@ -74,8 +74,10 @@ function Favorites() {
             {/* Nome */}
             <h4>{name}</h4>
 
-            {/* Categoria */}
-            <p>{type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}`}</p>
+            {/* Alcólico, Categoria, Origem */}
+            <span>
+              {type === 'comida' ? `${area} - ${category}` : `${alcoholicOrNot}`}
+            </span>
           </div>
         </div>
 
